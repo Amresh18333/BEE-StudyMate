@@ -15,13 +15,13 @@ function ProgressOverview({
 
 
     return (
-        <section className="sm-card sm-progress-card">
+        <section className="card progress-summary-card">
 
-            <div className="sm-card-header">
+            <div className="card-header">
 
                 <div>
 
-                    <span className="sm-section-label">
+                    <span className="section-label">
                         OVERVIEW
                     </span>
 
@@ -31,7 +31,7 @@ function ProgressOverview({
 
                 </div>
 
-                <span className="sm-card-badge">
+                <span className="card-badge">
                     {progress.length} topic
                     {progress.length !== 1
                         ? "s"
@@ -42,9 +42,9 @@ function ProgressOverview({
             </div>
 
 
-            <div className="sm-progress-content">
+            <div className="progress-content">
 
-                <div className="sm-progress-ring">
+                <div className="progress-ring">
 
                     <svg
                         viewBox="0 0 128 128"
@@ -52,14 +52,14 @@ function ProgressOverview({
                     >
 
                         <circle
-                            className="sm-progress-track"
+                            className="progress-track"
                             cx="64"
                             cy="64"
                             r={radius}
                         />
 
                         <circle
-                            className="sm-progress-value"
+                            className="progress-value"
                             cx="64"
                             cy="64"
                             r={radius}
@@ -70,7 +70,7 @@ function ProgressOverview({
                     </svg>
 
 
-                    <div className="sm-progress-center">
+                    <div className="progress-center">
 
                         <strong>
                             {progressPercentage}%
@@ -85,9 +85,9 @@ function ProgressOverview({
                 </div>
 
 
-                <div className="sm-progress-details">
+                <div className="progress-details">
 
-                    <div className="sm-progress-summary">
+                    <div className="progress-summary">
 
                         <span>
                             Topics started
@@ -100,7 +100,7 @@ function ProgressOverview({
                     </div>
 
 
-                    <div className="sm-progress-summary">
+                    <div className="progress-summary">
 
                         <span>
                             Completed
@@ -118,7 +118,7 @@ function ProgressOverview({
                     </div>
 
 
-                    <div className="sm-progress-summary">
+                    <div className="progress-summary">
 
                         <span>
                             In progress
