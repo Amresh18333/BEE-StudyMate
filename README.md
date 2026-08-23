@@ -1,3 +1,4 @@
+# BEE-StudyMate
 StudyMate AI
 
 StudyMate AI is a personalized learning platform designed for students.
