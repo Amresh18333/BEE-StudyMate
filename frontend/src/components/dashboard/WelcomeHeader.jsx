@@ -21,13 +21,13 @@ function WelcomeHeader({
 
 
     return (
-        <section className="sm-welcome">
+        <section className="welcome">
 
-            <div className="sm-welcome-content">
+            <div className="welcome-content">
 
-                <div className="sm-welcome-copy">
+                <div className="welcome-copy">
 
-                    <span className="sm-eyebrow">
+                    <span className="eyebrow">
                         YOUR LEARNING SPACE
                     </span>
 
@@ -48,11 +48,11 @@ function WelcomeHeader({
                 </div>
 
 
-                <div className="sm-welcome-stats">
+                <div className="welcome-stats">
 
-                    <div className="sm-welcome-stat">
+                    <div className="welcome-stat">
 
-                        <span className="sm-stat-label">
+                        <span className="stat-label">
                             Subjects
                         </span>
 
@@ -63,12 +63,12 @@ function WelcomeHeader({
                     </div>
 
 
-                    <div className="sm-stat-divider" />
+                    <div className="stat-divider" />
 
 
-                    <div className="sm-welcome-stat">
+                    <div className="welcome-stat">
 
-                        <span className="sm-stat-label">
+                        <span className="stat-label">
                             Overall progress
                         </span>
 

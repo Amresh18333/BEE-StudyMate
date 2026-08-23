@@ -25,13 +25,13 @@ function StudyOverview({
 
 
     return (
-        <section className="sm-card sm-study-card">
+        <section className="card study-summary-card">
 
-            <div className="sm-card-header">
+            <div className="card-header">
 
                 <div>
 
-                    <span className="sm-section-label">
+                    <span className="section-label">
                         CONTINUE LEARNING
                     </span>
 
@@ -44,7 +44,7 @@ function StudyOverview({
 
                 <button
                     type="button"
-                    className="sm-text-button"
+                    className="text-button"
                     onClick={() =>
                         navigate("/subjects")
                     }
@@ -58,9 +58,9 @@ function StudyOverview({
 
             {activeProgress.length === 0 ? (
 
-                <div className="sm-empty-study">
+                <div className="empty-study">
 
-                    <div className="sm-empty-icon">
+                    <div className="empty-icon">
                         <span>+</span>
                     </div>
 
@@ -80,7 +80,7 @@ function StudyOverview({
 
                     <button
                         type="button"
-                        className="sm-primary-button"
+                        className="primary-button"
                         onClick={() =>
                             navigate("/subjects")
                         }
@@ -92,7 +92,7 @@ function StudyOverview({
 
             ) : (
 
-                <div className="sm-study-list">
+                <div className="study-list">
 
                     {activeProgress.map(
                         item => {
@@ -108,7 +108,7 @@ function StudyOverview({
                                 <button
                                     key={item.id}
                                     type="button"
-                                    className="sm-study-item"
+                                    className="study-item"
                                     onClick={() =>
                                         navigate(
                                             `/subjects/${item.subjectId}/topics/${item.topicId}/study`
@@ -116,12 +116,12 @@ function StudyOverview({
                                     }
                                 >
 
-                                    <div className="sm-study-icon">
+                                    <div className="study-icon">
                                         📖
                                     </div>
 
 
-                                    <div className="sm-study-info">
+                                    <div className="study-info">
 
                                         <strong>
                                             Continue studying
@@ -137,9 +137,9 @@ function StudyOverview({
                                     </div>
 
 
-                                    <div className="sm-study-progress">
+                                    <div className="study-progress">
 
-                                        <div className="sm-study-progress-top">
+                                        <div className="study-progress-top">
 
                                             <span>
                                                 Progress
@@ -154,7 +154,7 @@ function StudyOverview({
                                         </div>
 
 
-                                        <div className="sm-progress-bar">
+                                        <div className="progress-bar">
 
                                             <span
                                                 style={{
@@ -173,7 +173,7 @@ function StudyOverview({
                                     </div>
 
 
-                                    <span className="sm-study-arrow">
+                                    <span className="study-arrow">
                                         →
                                     </span>
 
