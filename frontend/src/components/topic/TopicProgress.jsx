@@ -14,13 +14,13 @@ function TopicProgress({
 
 
     return (
-        <section className="sm-study-progress-card">
+        <section className="study-progress-card">
 
-            <div className="sm-study-progress-header">
+            <div className="study-progress-header">
 
                 <div>
 
-                    <span className="sm-section-label">
+                    <span className="section-label">
                         YOUR PROGRESS
                     </span>
 
@@ -31,14 +31,14 @@ function TopicProgress({
                 </div>
 
 
-                <div className="sm-progress-percentage">
+                <div className="progress-percentage">
                     {percentage}%
                 </div>
 
             </div>
 
 
-            <div className="sm-large-progress-bar">
+            <div className="large-progress-bar">
 
                 <span
                     style={{
@@ -49,9 +49,9 @@ function TopicProgress({
             </div>
 
 
-            <div className="sm-study-progress-bottom">
+            <div className="study-progress-bottom">
 
-                <div className="sm-progress-status">
+                <div className="progress-status">
 
                     <span
                         className={
@@ -76,7 +76,7 @@ function TopicProgress({
                 </div>
 
 
-                <div className="sm-progress-actions">
+                <div className="progress-actions">
 
                     {[25, 50, 75].map(
                         (value) => (
@@ -124,11 +124,11 @@ function TopicProgress({
             </div>
 
 
-            <div className="sm-finish-row">
+            <div className="finish-row">
 
                 <button
                     type="button"
-                    className="sm-finish-button"
+                    className="finish-button"
                     onClick={onFinishStudy}
                     disabled={finishing}
                 >

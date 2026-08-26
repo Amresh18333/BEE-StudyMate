@@ -11,10 +11,10 @@ function TopicContent({
 
 
     return (
-        <div className="sm-topic-content">
+        <div className="topic-content-wrapper">
 
             {sections.length === 0 && (
-                <div className="sm-topic-no-content">
+                <div className="topic-no-content">
 
                     <span>
                         No learning content available yet.
@@ -26,9 +26,9 @@ function TopicContent({
 
             {sections.length > 0 && (
 
-                <section className="sm-learning-section">
+                <section className="learning-section">
 
-                    <div className="sm-content-section-heading">
+                    <div className="content-section-heading">
 
                         <span>
                             LESSON
@@ -41,17 +41,17 @@ function TopicContent({
                     </div>
 
 
-                    <div className="sm-topic-sections">
+                    <div className="topic-sections">
 
                         {sections.map(
                             (section, index) => (
 
                                 <article
                                     key={index}
-                                    className="sm-topic-section"
+                                    className="topic-section"
                                 >
 
-                                    <div className="sm-section-number">
+                                    <div className="section-number">
                                         {String(
                                             index + 1
                                         ).padStart(
@@ -61,7 +61,7 @@ function TopicContent({
                                     </div>
 
 
-                                    <div className="sm-section-body">
+                                    <div className="section-body">
 
                                         <h3>
                                             {section.title}
@@ -87,9 +87,9 @@ function TopicContent({
 
             {keyPoints.length > 0 && (
 
-                <section className="sm-learning-section sm-keypoints-section">
+                <section className="learning-section keypoints-section">
 
-                    <div className="sm-content-section-heading">
+                    <div className="content-section-heading">
 
                         <span>
                             REVISION
@@ -102,17 +102,17 @@ function TopicContent({
                     </div>
 
 
-                    <div className="sm-keypoints">
+                    <div className="keypoints">
 
                         {keyPoints.map(
                             (point, index) => (
 
                                 <div
                                     key={index}
-                                    className="sm-keypoint"
+                                    className="keypoint"
                                 >
 
-                                    <div className="sm-keypoint-check">
+                                    <div className="keypoint-check">
                                         ✓
                                     </div>
 

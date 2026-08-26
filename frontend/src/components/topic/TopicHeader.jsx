@@ -11,19 +11,19 @@ function TopicHeader({
 
 
     return (
-        <section className="sm-topic-hero">
+        <section className="topic-hero">
 
-            <div className="sm-topic-hero-main">
+            <div className="topic-hero-main">
 
                 <Link
                     to={`/subjects/${topic?.subjectId}`}
-                    className="sm-topic-back"
+                    className="topic-back"
                 >
                     ← Back to {subject?.name || "Subject"}
                 </Link>
 
 
-                <div className="sm-topic-eyebrow">
+                <div className="topic-eyebrow">
                     LEARNING TOPIC
                 </div>
 
@@ -42,9 +42,9 @@ function TopicHeader({
             </div>
 
 
-            <div className="sm-topic-meta-card">
+            <div className="topic-meta-card">
 
-                <div className="sm-topic-meta-item">
+                <div className="topic-meta-item">
 
                     <span>
                         DIFFICULTY
@@ -52,7 +52,7 @@ function TopicHeader({
 
                     <strong
                         className={
-                            `sm-topic-difficulty ${difficulty.toLowerCase()}`
+                            `topic-difficulty ${difficulty.toLowerCase()}`
                         }
                     >
                         {difficulty}
@@ -61,10 +61,10 @@ function TopicHeader({
                 </div>
 
 
-                <div className="sm-topic-meta-divider" />
+                <div className="topic-meta-divider" />
 
 
-                <div className="sm-topic-meta-item">
+                <div className="topic-meta-item">
 
                     <span>
                         EST. TIME
