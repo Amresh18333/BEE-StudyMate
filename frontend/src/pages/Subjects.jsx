@@ -103,11 +103,11 @@ function Subjects() {
     if (loading) {
 
         return (
-            <div className="sm-page">
+            <div className="page">
 
-                <div className="sm-subject-loading">
+                <div className="subject-loading">
 
-                    <div className="sm-loading-spinner" />
+                    <div className="loading-spinner" />
 
                     <span>
                         Loading your subjects...
@@ -124,13 +124,13 @@ function Subjects() {
     if (error) {
 
         return (
-            <div className="sm-page">
+            <div className="page">
 
-                <section className="sm-subject-hero">
+                <section className="subject-hero">
 
                     <div>
 
-                        <span className="sm-eyebrow">
+                        <span className="eyebrow">
                             YOUR LEARNING
                         </span>
 
@@ -147,9 +147,9 @@ function Subjects() {
                 </section>
 
 
-                <div className="sm-subject-error">
+                <div className="subject-error">
 
-                    <div className="sm-subject-error-icon">
+                    <div className="subject-error-icon">
                         !
                     </div>
 
@@ -174,17 +174,17 @@ function Subjects() {
 
 
     return (
-        <div className="sm-page">
+        <div className="page">
 
             {/* HEADER */}
 
-            <section className="sm-subject-hero">
+            <section className="subject-hero">
 
-                <div className="sm-subject-hero-content">
+                <div className="subject-hero-content">
 
                     <div>
 
-                        <span className="sm-eyebrow">
+                        <span className="eyebrow">
                             YOUR LEARNING
                         </span>
 
@@ -202,14 +202,14 @@ function Subjects() {
 
                     <button
                         type="button"
-                        className="sm-subject-add-button"
+                        className="subject-add-button"
                         onClick={() =>
                             setShowCreateForm(
                                 current => !current
                             )
                         }
                     >
-                        <span className="sm-add-symbol">
+                        <span className="add-symbol">
                             +
                         </span>
 
@@ -228,13 +228,13 @@ function Subjects() {
 
             {showCreateForm && (
 
-                <section className="sm-subject-create-card">
+                <section className="subject-create-card">
 
-                    <div className="sm-subject-create-header">
+                    <div className="subject-create-header">
 
                         <div>
 
-                            <span className="sm-section-label">
+                            <span className="section-label">
                                 NEW SUBJECT
                             </span>
 
@@ -252,7 +252,7 @@ function Subjects() {
 
                         <button
                             type="button"
-                            className="sm-subject-close"
+                            className="subject-close"
                             onClick={() =>
                                 setShowCreateForm(false)
                             }
@@ -280,11 +280,11 @@ function Subjects() {
 
             {/* TOOLBAR */}
 
-            <section className="sm-subject-toolbar">
+            <section className="subject-toolbar">
 
-                <div className="sm-subject-toolbar-left">
+                <div className="subject-toolbar-left">
 
-                    <span className="sm-section-label">
+                    <span className="section-label">
                         STUDY LIBRARY
                     </span>
 
@@ -301,9 +301,9 @@ function Subjects() {
 
                 {subjects.length > 0 && (
 
-                    <div className="sm-subject-search">
+                    <div className="subject-search">
 
-                        <span className="sm-search-icon">
+                        <span className="search-icon">
                             ⌕
                         </span>
 
@@ -323,7 +323,7 @@ function Subjects() {
 
                             <button
                                 type="button"
-                                className="sm-search-clear"
+                                className="search-clear"
                                 onClick={() =>
                                     setSearchQuery("")
                                 }
@@ -344,13 +344,13 @@ function Subjects() {
 
             {subjects.length === 0 ? (
 
-                <section className="sm-subject-empty">
+                <section className="subject-empty">
 
-                    <div className="sm-subject-empty-icon">
+                    <div className="subject-empty-icon">
                         +
                     </div>
 
-                    <span className="sm-section-label">
+                    <span className="section-label">
                         START LEARNING
                     </span>
 
@@ -366,7 +366,7 @@ function Subjects() {
 
                     <button
                         type="button"
-                        className="sm-primary-button"
+                        className="primary-button"
                         onClick={() =>
                             setShowCreateForm(true)
                         }
@@ -378,13 +378,13 @@ function Subjects() {
 
             ) : filteredSubjects.length === 0 ? (
 
-                <section className="sm-subject-empty">
+                <section className="subject-empty">
 
-                    <div className="sm-subject-empty-icon">
+                    <div className="subject-empty-icon">
                         ⌕
                     </div>
 
-                    <span className="sm-section-label">
+                    <span className="section-label">
                         NO MATCHES
                     </span>
 
@@ -399,7 +399,7 @@ function Subjects() {
 
                     <button
                         type="button"
-                        className="sm-primary-button"
+                        className="primary-button"
                         onClick={() =>
                             setSearchQuery("")
                         }
@@ -413,7 +413,7 @@ function Subjects() {
 
                 /* SUBJECT GRID */
 
-                <section className="sm-subject-page-grid">
+                <section className="subject-page-grid">
 
                     {filteredSubjects.map(
                         (subject, index) => (
@@ -453,34 +453,34 @@ function SubjectCard({
 
 
     const colorClass =
-        `sm-subject-accent-${index % 4}`;
+        `subject-accent-${index % 4}`;
 
 
     return (
         <article
-            className="sm-subject-tile"
+            className="subject-tile"
             onClick={() =>
                 onOpen(subject.id)
             }
         >
 
-            <div className="sm-subject-tile-top">
+            <div className="subject-tile-top">
 
                 <div
-                    className={`sm-subject-index ${colorClass}`}
+                    className={`subject-index ${colorClass}`}
                 >
                     {number}
                 </div>
 
 
-                <span className="sm-subject-tile-arrow">
+                <span className="subject-tile-arrow">
                     →
                 </span>
 
             </div>
 
 
-            <div className="sm-subject-tile-body">
+            <div className="subject-tile-body">
 
                 <h2>
                     {subject.name}
@@ -495,7 +495,7 @@ function SubjectCard({
             </div>
 
 
-            <div className="sm-subject-tile-footer">
+            <div className="subject-tile-footer">
 
                 <span>
                     Subject

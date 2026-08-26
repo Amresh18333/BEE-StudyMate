@@ -134,11 +134,11 @@ function SubjectDetails() {
     if (loading) {
 
         return (
-            <div className="sm-page">
+            <div className="page">
 
-                <div className="sm-subject-loading">
+                <div className="subject-loading">
 
-                    <div className="sm-loading-spinner" />
+                    <div className="loading-spinner" />
 
                     <span>
                         Loading subject...
@@ -155,25 +155,25 @@ function SubjectDetails() {
     if (error) {
 
         return (
-            <div className="sm-page">
+            <div className="page">
 
                 <Link
                     to="/subjects"
-                    className="sm-details-back"
+                    className="details-back"
                 >
                     ← Back to Subjects
                 </Link>
 
 
-                <section className="sm-details-error">
+                <section className="details-error">
 
-                    <div className="sm-details-error-icon">
+                    <div className="details-error-icon">
                         !
                     </div>
 
                     <div>
 
-                        <span className="sm-section-label">
+                        <span className="section-label">
                             ERROR
                         </span>
 
@@ -200,13 +200,13 @@ function SubjectDetails() {
 
 
     return (
-        <div className="sm-page">
+        <div className="page">
 
             {/* BACK */}
 
             <Link
                 to="/subjects"
-                className="sm-details-back"
+                className="details-back"
             >
                 ← Back to Subjects
             </Link>
@@ -214,11 +214,11 @@ function SubjectDetails() {
 
             {/* SUBJECT HERO */}
 
-            <section className="sm-details-hero">
+            <section className="details-hero">
 
-                <div className="sm-details-hero-main">
+                <div className="details-hero-main">
 
-                    <div className="sm-details-subject-number">
+                    <div className="details-subject-number">
                         {String(
                             Math.max(
                                 1,
@@ -228,9 +228,9 @@ function SubjectDetails() {
                     </div>
 
 
-                    <div className="sm-details-heading">
+                    <div className="details-heading">
 
-                        <span className="sm-eyebrow">
+                        <span className="eyebrow">
                             SUBJECT
                         </span>
 
@@ -251,9 +251,9 @@ function SubjectDetails() {
                 </div>
 
 
-                <div className="sm-details-hero-stats">
+                <div className="details-hero-stats">
 
-                    <div className="sm-details-stat">
+                    <div className="details-stat">
 
                         <span>
                             TOPICS
@@ -266,16 +266,16 @@ function SubjectDetails() {
                     </div>
 
 
-                    <div className="sm-details-stat-divider" />
+                    <div className="details-stat-divider" />
 
 
-                    <div className="sm-details-stat">
+                    <div className="details-stat">
 
                         <span>
                             STATUS
                         </span>
 
-                        <strong className="sm-details-status">
+                        <strong className="details-status">
                             Active
                         </strong>
 
@@ -288,11 +288,11 @@ function SubjectDetails() {
 
             {/* TOOLBAR */}
 
-            <section className="sm-details-toolbar">
+            <section className="details-toolbar">
 
                 <div>
 
-                    <span className="sm-section-label">
+                    <span className="section-label">
                         LEARNING PATH
                     </span>
 
@@ -305,7 +305,7 @@ function SubjectDetails() {
 
                 {topics.length > 0 && (
 
-                    <div className="sm-details-search">
+                    <div className="details-search">
 
                         <span>
                             ⌕
@@ -348,13 +348,13 @@ function SubjectDetails() {
 
             {topics.length === 0 ? (
 
-                <section className="sm-details-empty">
+                <section className="details-empty">
 
-                    <div className="sm-details-empty-icon">
+                    <div className="details-empty-icon">
                         ▣
                     </div>
 
-                    <span className="sm-section-label">
+                    <span className="section-label">
                         LEARNING PATH
                     </span>
 
@@ -369,7 +369,7 @@ function SubjectDetails() {
 
                     <Link
                         to="/subjects"
-                        className="sm-primary-button"
+                        className="primary-button"
                     >
                         Back to subjects
                     </Link>
@@ -378,13 +378,13 @@ function SubjectDetails() {
 
             ) : sortedTopics.length === 0 ? (
 
-                <section className="sm-details-empty">
+                <section className="details-empty">
 
-                    <div className="sm-details-empty-icon">
+                    <div className="details-empty-icon">
                         ⌕
                     </div>
 
-                    <span className="sm-section-label">
+                    <span className="section-label">
                         NO MATCHES
                     </span>
 
@@ -399,7 +399,7 @@ function SubjectDetails() {
 
                     <button
                         type="button"
-                        className="sm-primary-button"
+                        className="primary-button"
                         onClick={() =>
                             setSearchQuery("")
                         }
@@ -411,7 +411,7 @@ function SubjectDetails() {
 
             ) : (
 
-                <section className="sm-topic-list">
+                <section className="topic-list">
 
                     {sortedTopics.map(
                         (topic, index) => (
@@ -508,18 +508,18 @@ function TopicRow({
 
 
     return (
-        <article className="sm-topic-row">
+        <article className="topic-row">
 
-            <div className="sm-topic-number">
+            <div className="topic-number">
                 {String(
                     index + 1
                 ).padStart(2, "0")}
             </div>
 
 
-            <div className="sm-topic-main">
+            <div className="topic-main">
 
-                <div className="sm-topic-title-row">
+                <div className="topic-title-row">
 
                     <h3>
                         {topic.name}
@@ -527,7 +527,7 @@ function TopicRow({
 
                     <span
                         className={
-                            `sm-topic-difficulty ${difficultyClass}`
+                            `topic-difficulty ${difficultyClass}`
                         }
                     >
                         {difficulty}
@@ -543,7 +543,7 @@ function TopicRow({
                 </p>
 
 
-                <div className="sm-topic-meta">
+                <div className="topic-meta">
 
                     <span>
                         ◷{" "}
@@ -564,7 +564,7 @@ function TopicRow({
 
                 {error && (
 
-                    <div className="sm-topic-error">
+                    <div className="topic-error">
                         {error}
                     </div>
 
@@ -575,7 +575,7 @@ function TopicRow({
 
             <button
                 type="button"
-                className="sm-topic-study-button"
+                className="topic-study-button"
                 onClick={handleStudy}
                 disabled={starting}
             >

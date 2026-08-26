@@ -12,9 +12,9 @@ function TopicExamples({
 
 
     return (
-        <section className="sm-learning-section">
+        <section className="learning-section">
 
-            <div className="sm-content-section-heading">
+            <div className="content-section-heading">
 
                 <span>
                     PRACTICE
@@ -27,23 +27,23 @@ function TopicExamples({
             </div>
 
 
-            <div className="sm-examples">
+            <div className="examples">
 
                 {examples.map(
                     (example, index) => (
 
                         <div
                             key={index}
-                            className="sm-example-card"
+                            className="example-card"
                         >
 
-                            <div className="sm-example-header">
+                            <div className="example-header">
 
                                 <span>
                                     Example {index + 1}
                                 </span>
 
-                                <span className="sm-example-dot">
+                                <span className="example-dot">
                                     ●
                                 </span>
 

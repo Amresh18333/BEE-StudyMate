@@ -109,11 +109,11 @@ function Dashboard() {
     if (loading) {
 
         return (
-            <div className="sm-page">
+            <div className="page">
 
-                <div className="sm-loading">
+                <div className="loading">
 
-                    <div className="sm-loading-spinner" />
+                    <div className="loading-spinner" />
 
                     <span>
                         Loading your dashboard...
@@ -130,11 +130,11 @@ function Dashboard() {
     if (error) {
 
         return (
-            <div className="sm-page">
+            <div className="page">
 
-                <div className="sm-error">
+                <div className="error">
 
-                    <div className="sm-error-icon">
+                    <div className="error-icon">
                         !
                     </div>
 
@@ -159,7 +159,7 @@ function Dashboard() {
 
 
     return (
-        <div className="sm-page sm-dashboard-page">
+        <div className="page dashboard-page">
 
             {/* =========================
                 WELCOME
@@ -176,17 +176,17 @@ function Dashboard() {
                 QUICK ACTIONS
             ========================= */}
 
-            <section className="sm-dashboard-actions">
+            <section className="dashboard-actions">
 
                 <button
                     type="button"
-                    className="sm-dashboard-action sm-dashboard-action-primary"
+                    className="dashboard-action dashboard-action-primary"
                     onClick={() =>
                         navigate("/subjects")
                     }
                 >
 
-                    <div className="sm-dashboard-action-icon">
+                    <div className="dashboard-action-icon">
                         +
                     </div>
 
@@ -206,7 +206,7 @@ function Dashboard() {
 
                     </div>
 
-                    <span className="sm-dashboard-action-arrow">
+                    <span className="dashboard-action-arrow">
                         →
                     </span>
 
@@ -215,13 +215,13 @@ function Dashboard() {
 
                 <button
                     type="button"
-                    className="sm-dashboard-action"
+                    className="dashboard-action"
                     onClick={() =>
                         navigate("/subjects")
                     }
                 >
 
-                    <div className="sm-dashboard-action-icon">
+                    <div className="dashboard-action-icon">
                         ◫
                     </div>
 
@@ -245,16 +245,16 @@ function Dashboard() {
 
                     </div>
 
-                    <span className="sm-dashboard-action-arrow">
+                    <span className="dashboard-action-arrow">
                         →
                     </span>
 
                 </button>
 
 
-                <div className="sm-dashboard-action sm-dashboard-action-disabled">
+                <div className="dashboard-action dashboard-action-disabled">
 
-                    <div className="sm-dashboard-action-icon">
+                    <div className="dashboard-action-icon">
                         ✦
                     </div>
 
@@ -274,7 +274,7 @@ function Dashboard() {
 
                     </div>
 
-                    <span className="sm-dashboard-coming">
+                    <span className="dashboard-coming">
                         SOON
                     </span>
 
@@ -287,11 +287,11 @@ function Dashboard() {
                 STATISTICS
             ========================= */}
 
-            <section className="sm-dashboard-stats">
+            <section className="dashboard-stats">
 
-                <div className="sm-dashboard-stat">
+                <div className="dashboard-stat">
 
-                    <span className="sm-dashboard-stat-label">
+                    <span className="dashboard-stat-label">
                         SUBJECTS
                     </span>
 
@@ -299,16 +299,16 @@ function Dashboard() {
                         {subjects.length}
                     </strong>
 
-                    <span className="sm-dashboard-stat-description">
+                    <span className="dashboard-stat-description">
                         Learning areas
                     </span>
 
                 </div>
 
 
-                <div className="sm-dashboard-stat">
+                <div className="dashboard-stat">
 
-                    <span className="sm-dashboard-stat-label">
+                    <span className="dashboard-stat-label">
                         TOPICS STARTED
                     </span>
 
@@ -316,16 +316,16 @@ function Dashboard() {
                         {statistics.totalProgressRecords}
                     </strong>
 
-                    <span className="sm-dashboard-stat-description">
+                    <span className="dashboard-stat-description">
                         Saved progress records
                     </span>
 
                 </div>
 
 
-                <div className="sm-dashboard-stat">
+                <div className="dashboard-stat">
 
-                    <span className="sm-dashboard-stat-label">
+                    <span className="dashboard-stat-label">
                         COMPLETED
                     </span>
 
@@ -333,16 +333,16 @@ function Dashboard() {
                         {statistics.completedTopics}
                     </strong>
 
-                    <span className="sm-dashboard-stat-description">
+                    <span className="dashboard-stat-description">
                         Finished topics
                     </span>
 
                 </div>
 
 
-                <div className="sm-dashboard-stat">
+                <div className="dashboard-stat">
 
-                    <span className="sm-dashboard-stat-label">
+                    <span className="dashboard-stat-label">
                         OVERALL PROGRESS
                     </span>
 
@@ -350,7 +350,7 @@ function Dashboard() {
                         {overallProgress}%
                     </strong>
 
-                    <span className="sm-dashboard-stat-description">
+                    <span className="dashboard-stat-description">
                         Across saved progress
                     </span>
 
@@ -363,7 +363,7 @@ function Dashboard() {
                 MAIN OVERVIEW
             ========================= */}
 
-            <section className="sm-dashboard-grid">
+            <section className="dashboard-grid">
 
                 <ProgressOverview
                     progressPercentage={
@@ -385,13 +385,13 @@ function Dashboard() {
                 CONTINUE LEARNING
             ========================= */}
 
-            <section className="sm-dashboard-continue">
+            <section className="dashboard-continue">
 
-                <div className="sm-dashboard-continue-header">
+                <div className="dashboard-continue-header">
 
                     <div>
 
-                        <span className="sm-section-label">
+                        <span className="section-label">
                             CONTINUE LEARNING
                         </span>
 
@@ -401,7 +401,7 @@ function Dashboard() {
 
                     </div>
 
-                    <span className="sm-dashboard-continue-badge">
+                    <span className="dashboard-continue-badge">
                         {statistics.inProgressTopics} in progress
                     </span>
 
@@ -412,7 +412,7 @@ function Dashboard() {
 
                     <button
                         type="button"
-                        className="sm-dashboard-continue-card"
+                        className="dashboard-continue-card"
                         onClick={() =>
                             navigate(
                                 `/subjects/${continueProgress.subjectId}/topics/${continueProgress.topicId}/study`
@@ -420,11 +420,11 @@ function Dashboard() {
                         }
                     >
 
-                        <div className="sm-dashboard-continue-icon">
+                        <div className="dashboard-continue-icon">
                             →
                         </div>
 
-                        <div className="sm-dashboard-continue-info">
+                        <div className="dashboard-continue-info">
 
                             <span>
                                 TOPIC IN PROGRESS
@@ -434,9 +434,9 @@ function Dashboard() {
                                 Continue your current topic
                             </strong>
 
-                            <div className="sm-dashboard-continue-progress">
+                            <div className="dashboard-continue-progress">
 
-                                <div className="sm-progress-bar">
+                                <div className="progress-bar">
 
                                     <span
                                         style={{
@@ -454,7 +454,7 @@ function Dashboard() {
 
                         </div>
 
-                        <span className="sm-dashboard-continue-arrow">
+                        <span className="dashboard-continue-arrow">
                             →
                         </span>
 
@@ -462,9 +462,9 @@ function Dashboard() {
 
                 ) : (
 
-                    <div className="sm-dashboard-empty">
+                    <div className="dashboard-empty">
 
-                        <div className="sm-dashboard-empty-icon">
+                        <div className="dashboard-empty-icon">
                             ○
                         </div>
 
@@ -483,7 +483,7 @@ function Dashboard() {
 
                         <button
                             type="button"
-                            className="sm-primary-button"
+                            className="primary-button"
                             onClick={() =>
                                 navigate("/subjects")
                             }
@@ -502,13 +502,13 @@ function Dashboard() {
                 SUBJECTS
             ========================= */}
 
-            <section className="sm-card sm-dashboard-subjects">
+            <section className="card dashboard-subjects">
 
-                <div className="sm-card-header">
+                <div className="card-header">
 
                     <div>
 
-                        <span className="sm-section-label">
+                        <span className="section-label">
                             YOUR LEARNING
                         </span>
 
@@ -521,7 +521,7 @@ function Dashboard() {
 
                     <button
                         type="button"
-                        className="sm-text-button"
+                        className="text-button"
                         onClick={() =>
                             navigate("/subjects")
                         }
@@ -535,9 +535,9 @@ function Dashboard() {
 
                 {subjects.length === 0 ? (
 
-                    <div className="sm-empty-subjects">
+                    <div className="empty-subjects">
 
-                        <div className="sm-empty-icon">
+                        <div className="empty-icon">
                             +
                         </div>
 
@@ -557,7 +557,7 @@ function Dashboard() {
 
                         <button
                             type="button"
-                            className="sm-primary-button"
+                            className="primary-button"
                             onClick={() =>
                                 navigate("/subjects")
                             }
@@ -569,7 +569,7 @@ function Dashboard() {
 
                 ) : (
 
-                    <div className="sm-subject-grid">
+                    <div className="subject-grid">
 
                         {subjects
                             .slice(0, 6)
@@ -605,7 +605,7 @@ function Dashboard() {
                                         <button
                                             key={subject.id}
                                             type="button"
-                                            className="sm-subject-card"
+                                            className="subject-card"
                                             onClick={() =>
                                                 navigate(
                                                     `/subjects/${subject.id}`
@@ -613,10 +613,10 @@ function Dashboard() {
                                             }
                                         >
 
-                                            <div className="sm-subject-top">
+                                            <div className="subject-top">
 
                                                 <div
-                                                    className={`sm-subject-number sm-subject-color-${index % 4}`}
+                                                    className={`subject-number subject-color-${index % 4}`}
                                                 >
                                                     {String(
                                                         index + 1
@@ -626,26 +626,26 @@ function Dashboard() {
                                                     )}
                                                 </div>
 
-                                                <span className="sm-subject-arrow">
+                                                <span className="subject-arrow">
                                                     →
                                                 </span>
 
                                             </div>
 
 
-                                            <div className="sm-subject-name">
+                                            <div className="subject-name">
                                                 {subject.name}
                                             </div>
 
 
-                                            <p className="sm-subject-description">
+                                            <p className="subject-description">
                                                 {subject.description ||
                                                     "Continue learning this subject."
                                                 }
                                             </p>
 
 
-                                            <div className="sm-subject-footer">
+                                            <div className="subject-footer">
 
                                                 <span>
                                                     {
@@ -667,7 +667,7 @@ function Dashboard() {
                                             </div>
 
 
-                                            <div className="sm-progress-bar sm-subject-progress">
+                                            <div className="progress-bar subject-progress">
 
                                                 <span
                                                     style={{
@@ -695,11 +695,11 @@ function Dashboard() {
                 SYSTEM STATUS
             ========================= */}
 
-            <section className="sm-status-row">
+            <section className="status-row">
 
-                <div className="sm-status-card">
+                <div className="status-card">
 
-                    <span className="sm-status-dot sm-status-green" />
+                    <span className="status-dot status-green" />
 
                     <div>
 
@@ -716,9 +716,9 @@ function Dashboard() {
                 </div>
 
 
-                <div className="sm-status-card">
+                <div className="status-card">
 
-                    <span className="sm-status-dot sm-status-purple" />
+                    <span className="status-dot status-purple" />
 
                     <div>
 

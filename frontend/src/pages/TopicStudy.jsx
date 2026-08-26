@@ -318,11 +318,11 @@ function TopicStudy() {
     if (loading) {
 
         return (
-            <div className="sm-page">
+            <div className="page">
 
-                <div className="sm-topic-loading">
+                <div className="topic-loading">
 
-                    <div className="sm-loading-spinner" />
+                    <div className="loading-spinner" />
 
                     <span>
                         Preparing your lesson...
@@ -339,18 +339,18 @@ function TopicStudy() {
     if (error && !topic) {
 
         return (
-            <div className="sm-page">
+            <div className="page">
 
-                <section className="sm-topic-error">
+                <section className="topic-error">
 
-                    <div className="sm-topic-error-icon">
+                    <div className="topic-error-icon">
                         !
                     </div>
 
 
                     <div>
 
-                        <span className="sm-section-label">
+                        <span className="section-label">
                             STUDY SESSION
                         </span>
 
@@ -365,7 +365,7 @@ function TopicStudy() {
 
                         <button
                             type="button"
-                            className="sm-primary-button"
+                            className="primary-button"
                             onClick={() =>
                                 navigate(
                                     `/subjects/${subjectId}`
@@ -386,7 +386,7 @@ function TopicStudy() {
 
 
     return (
-        <div className="sm-page sm-topic-page">
+        <div className="page topic-page">
 
             <TopicHeader
                 subject={subject}
@@ -396,7 +396,7 @@ function TopicStudy() {
 
             {error && (
 
-                <div className="sm-topic-inline-error">
+                <div className="topic-inline-error">
 
                     <span>
                         !
@@ -409,9 +409,9 @@ function TopicStudy() {
             )}
 
 
-            <div className="sm-topic-layout">
+            <div className="topic-layout">
 
-                <main className="sm-topic-main-content">
+                <main className="topic-main-content">
 
                     <TopicContent
                         topic={topic}
@@ -425,11 +425,11 @@ function TopicStudy() {
                 </main>
 
 
-                <aside className="sm-topic-sidebar">
+                <aside className="topic-sidebar">
 
-                    <div className="sm-topic-sidebar-card">
+                    <div className="topic-sidebar-card">
 
-                        <span className="sm-section-label">
+                        <span className="section-label">
                             STUDY SESSION
                         </span>
 
@@ -438,7 +438,7 @@ function TopicStudy() {
                         </h3>
 
 
-                        <div className="sm-sidebar-info">
+                        <div className="sidebar-info">
 
                             <div>
 
@@ -472,7 +472,7 @@ function TopicStudy() {
                         </div>
 
 
-                        <div className="sm-sidebar-divider" />
+                        <div className="sidebar-divider" />
 
 
                         <p>
@@ -484,7 +484,7 @@ function TopicStudy() {
                     </div>
 
 
-                    <div className="sm-topic-sidebar-note">
+                    <div className="topic-sidebar-note">
 
                         <span>
                             STUDYMATE

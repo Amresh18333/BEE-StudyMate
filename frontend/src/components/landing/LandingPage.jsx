@@ -23,7 +23,7 @@ function LandingPage() {
                             ) {
 
                                 entry.target.classList.add(
-                                    "sm-visible"
+                                    "visible"
                                 );
 
                             }
@@ -40,7 +40,7 @@ function LandingPage() {
 
         const elements =
             document.querySelectorAll(
-                ".sm-landing-reveal"
+                ".landing-reveal"
             );
 
 
@@ -70,19 +70,19 @@ function LandingPage() {
 
 
     return (
-        <div className="sm-landing">
+        <div className="landing">
 
             {/* =========================
                 NAVBAR
             ========================= */}
 
-            <header className="sm-landing-navbar">
+            <header className="landing-navbar">
 
-                <div className="sm-landing-nav-inner">
+                <div className="landing-nav-inner">
 
                     <button
                         type="button"
-                        className="sm-landing-logo"
+                        className="landing-logo"
                         onClick={() =>
                             window.scrollTo({
                                 top: 0,
@@ -91,7 +91,7 @@ function LandingPage() {
                         }
                     >
 
-                        <span className="sm-landing-logo-icon">
+                        <span className="landing-logo-icon">
                             ✓
                         </span>
 
@@ -102,7 +102,7 @@ function LandingPage() {
                     </button>
 
 
-                    <nav className="sm-landing-nav-links">
+                    <nav className="landing-nav-links">
 
                         <button
                             type="button"
@@ -140,11 +140,11 @@ function LandingPage() {
                     </nav>
 
 
-                    <div className="sm-landing-nav-actions">
+                    <div className="landing-nav-actions">
 
                         <button
                             type="button"
-                            className="sm-landing-signin"
+                            className="landing-signin"
                             onClick={() =>
                                 navigate(
                                     "/dashboard"
@@ -156,7 +156,7 @@ function LandingPage() {
 
                         <button
                             type="button"
-                            className="sm-landing-nav-cta"
+                            className="landing-nav-cta"
                             onClick={() =>
                                 navigate(
                                     "/dashboard"
@@ -182,21 +182,21 @@ function LandingPage() {
 
             <main>
 
-                <section className="sm-landing-hero">
+                <section className="landing-hero">
 
-                    <div className="sm-landing-grid" />
+                    <div className="landing-grid" />
 
-                    <div className="sm-landing-glow sm-landing-glow-one" />
-                    <div className="sm-landing-glow sm-landing-glow-two" />
+                    <div className="landing-glow landing-glow-one" />
+                    <div className="landing-glow landing-glow-two" />
 
 
-                    <div className="sm-landing-hero-inner">
+                    <div className="landing-hero-inner">
 
-                        <div className="sm-landing-hero-content">
+                        <div className="landing-hero-content">
 
-                            <div className="sm-landing-badge sm-landing-reveal">
+                            <div className="landing-badge landing-reveal">
 
-                                <span className="sm-landing-badge-dot" />
+                                <span className="landing-badge-dot" />
 
                                 <span>
                                     Intelligent learning,
@@ -206,7 +206,7 @@ function LandingPage() {
                             </div>
 
 
-                            <h1 className="sm-landing-reveal sm-landing-delay-1">
+                            <h1 className="landing-reveal landing-delay-1">
 
                                 Study smarter.
 
@@ -219,7 +219,7 @@ function LandingPage() {
                             </h1>
 
 
-                            <p className="sm-landing-hero-description sm-landing-reveal sm-landing-delay-2">
+                            <p className="landing-hero-description landing-reveal landing-delay-2">
 
                                 StudyMate gives you one focused
                                 place to organize subjects,
@@ -229,11 +229,11 @@ function LandingPage() {
                             </p>
 
 
-                            <div className="sm-landing-hero-actions sm-landing-reveal sm-landing-delay-3">
+                            <div className="landing-hero-actions landing-reveal landing-delay-3">
 
                                 <button
                                     type="button"
-                                    className="sm-landing-primary-button"
+                                    className="landing-primary-button"
                                     onClick={() =>
                                         navigate(
                                             "/dashboard"
@@ -249,7 +249,7 @@ function LandingPage() {
 
                                 <button
                                     type="button"
-                                    className="sm-landing-secondary-button"
+                                    className="landing-secondary-button"
                                     onClick={() =>
                                         scrollToSection(
                                             "how-it-works"
@@ -262,11 +262,11 @@ function LandingPage() {
                             </div>
 
 
-                            <div className="sm-landing-trust sm-landing-reveal sm-landing-delay-4">
+                            <div className="landing-trust landing-reveal landing-delay-4">
 
-                                <div className="sm-landing-trust-item">
+                                <div className="landing-trust-item">
 
-                                    <span className="sm-trust-icon">
+                                    <span className="trust-icon">
                                         ✓
                                     </span>
 
@@ -285,12 +285,12 @@ function LandingPage() {
                                 </div>
 
 
-                                <div className="sm-landing-trust-divider" />
+                                <div className="landing-trust-divider" />
 
 
-                                <div className="sm-landing-trust-item">
+                                <div className="landing-trust-item">
 
-                                    <span className="sm-trust-icon">
+                                    <span className="trust-icon">
                                         ↗
                                     </span>
 
@@ -315,17 +315,17 @@ function LandingPage() {
 
                         {/* HERO VISUAL */}
 
-                        <div className="sm-landing-hero-visual sm-landing-reveal sm-landing-delay-2">
+                        <div className="landing-hero-visual landing-reveal landing-delay-2">
 
-                            <div className="sm-landing-orbit">
+                            <div className="landing-orbit">
 
-                                <div className="sm-landing-orbit-ring sm-orbit-one" />
-                                <div className="sm-landing-orbit-ring sm-orbit-two" />
+                                <div className="landing-orbit-ring orbit-one" />
+                                <div className="landing-orbit-ring orbit-two" />
 
 
-                                <div className="sm-landing-core">
+                                <div className="landing-core">
 
-                                    <div className="sm-landing-core-icon">
+                                    <div className="landing-core-icon">
                                         ✓
                                     </div>
 
@@ -340,9 +340,9 @@ function LandingPage() {
                                 </div>
 
 
-                                <div className="sm-floating-card sm-floating-card-one">
+                                <div className="floating-card floating-card-one">
 
-                                    <span className="sm-floating-icon">
+                                    <span className="floating-icon">
                                         ◫
                                     </span>
 
@@ -361,9 +361,9 @@ function LandingPage() {
                                 </div>
 
 
-                                <div className="sm-floating-card sm-floating-card-two">
+                                <div className="floating-card floating-card-two">
 
-                                    <span className="sm-floating-icon">
+                                    <span className="floating-icon">
                                         %
                                     </span>
 
@@ -382,9 +382,9 @@ function LandingPage() {
                                 </div>
 
 
-                                <div className="sm-floating-card sm-floating-card-three">
+                                <div className="floating-card floating-card-three">
 
-                                    <span className="sm-floating-icon">
+                                    <span className="floating-icon">
                                         ✓
                                     </span>
 
@@ -409,7 +409,7 @@ function LandingPage() {
                     </div>
 
 
-                    <div className="sm-landing-scroll">
+                    <div className="landing-scroll">
 
                         <span>
                             Scroll to explore
@@ -430,12 +430,12 @@ function LandingPage() {
 
                 <section
                     id="features"
-                    className="sm-landing-section"
+                    className="landing-section"
                 >
 
-                    <div className="sm-landing-section-inner">
+                    <div className="landing-section-inner">
 
-                        <div className="sm-landing-section-heading sm-landing-reveal">
+                        <div className="landing-section-heading landing-reveal">
 
                             <span>
                                 BUILT FOR BETTER STUDYING
@@ -455,7 +455,7 @@ function LandingPage() {
                         </div>
 
 
-                        <div className="sm-landing-feature-grid">
+                        <div className="landing-feature-grid">
 
                             <FeatureCard
                                 number="01"
@@ -498,16 +498,16 @@ function LandingPage() {
 
                 <section
                     id="about"
-                    className="sm-landing-learning"
+                    className="landing-learning"
                 >
 
-                    <div className="sm-landing-learning-inner">
+                    <div className="landing-learning-inner">
 
-                        <div className="sm-learning-visual sm-landing-reveal">
+                        <div className="learning-visual landing-reveal">
 
-                            <div className="sm-learning-window">
+                            <div className="learning-window">
 
-                                <div className="sm-learning-window-top">
+                                <div className="learning-window-top">
 
                                     <span />
                                     <span />
@@ -516,11 +516,11 @@ function LandingPage() {
                                 </div>
 
 
-                                <div className="sm-learning-window-content">
+                                <div className="learning-window-content">
 
-                                    <div className="sm-learning-sidebar">
+                                    <div className="learning-sidebar">
 
-                                        <div className="sm-learning-sidebar-logo">
+                                        <div className="learning-sidebar-logo">
                                             ✓
                                         </div>
 
@@ -532,14 +532,14 @@ function LandingPage() {
                                     </div>
 
 
-                                    <div className="sm-learning-main">
+                                    <div className="learning-main">
 
-                                        <div className="sm-learning-line large" />
-                                        <div className="sm-learning-line medium" />
+                                        <div className="learning-line large" />
+                                        <div className="learning-line medium" />
 
-                                        <div className="sm-learning-progress">
+                                        <div className="learning-progress">
 
-                                            <div className="sm-learning-progress-top">
+                                            <div className="learning-progress-top">
 
                                                 <span>
                                                     Learning progress
@@ -551,7 +551,7 @@ function LandingPage() {
 
                                             </div>
 
-                                            <div className="sm-learning-progress-bar">
+                                            <div className="learning-progress-bar">
 
                                                 <span />
 
@@ -560,7 +560,7 @@ function LandingPage() {
                                         </div>
 
 
-                                        <div className="sm-learning-cards">
+                                        <div className="learning-cards">
 
                                             <div />
                                             <div />
@@ -577,9 +577,9 @@ function LandingPage() {
                         </div>
 
 
-                        <div className="sm-learning-content sm-landing-reveal">
+                        <div className="learning-content landing-reveal">
 
-                            <span className="sm-landing-section-label">
+                            <span className="landing-section-label">
                                 FOCUSED LEARNING
                             </span>
 
@@ -597,7 +597,7 @@ function LandingPage() {
                             </p>
 
 
-                            <div className="sm-learning-points">
+                            <div className="learning-points">
 
                                 <LearningPoint
                                     number="01"
@@ -632,12 +632,12 @@ function LandingPage() {
 
                 <section
                     id="how-it-works"
-                    className="sm-landing-section sm-landing-how"
+                    className="landing-section landing-how"
                 >
 
-                    <div className="sm-landing-section-inner">
+                    <div className="landing-section-inner">
 
-                        <div className="sm-landing-section-heading sm-landing-reveal">
+                        <div className="landing-section-heading landing-reveal">
 
                             <span>
                                 HOW IT WORKS
@@ -656,7 +656,7 @@ function LandingPage() {
                         </div>
 
 
-                        <div className="sm-landing-steps">
+                        <div className="landing-steps">
 
                             <Step
                                 number="01"
@@ -685,7 +685,7 @@ function LandingPage() {
                         </div>
 
 
-                        <div className="sm-landing-final-cta sm-landing-reveal">
+                        <div className="landing-final-cta landing-reveal">
 
                             <div>
 
@@ -728,13 +728,13 @@ function LandingPage() {
                 FOOTER
             ========================= */}
 
-            <footer className="sm-landing-footer">
+            <footer className="landing-footer">
 
-                <div className="sm-landing-footer-inner">
+                <div className="landing-footer-inner">
 
-                    <div className="sm-landing-footer-brand">
+                    <div className="landing-footer-brand">
 
-                        <div className="sm-landing-footer-logo">
+                        <div className="landing-footer-logo">
 
                             <span>
                                 ✓
@@ -753,7 +753,7 @@ function LandingPage() {
                     </div>
 
 
-                    <div className="sm-landing-footer-column">
+                    <div className="landing-footer-column">
 
                         <span>
                             PRODUCT
@@ -795,7 +795,7 @@ function LandingPage() {
                     </div>
 
 
-                    <div className="sm-landing-footer-column">
+                    <div className="landing-footer-column">
 
                         <span>
                             LEARN
@@ -826,7 +826,7 @@ function LandingPage() {
                     </div>
 
 
-                    <div className="sm-landing-footer-column">
+                    <div className="landing-footer-column">
 
                         <span>
                             STUDYMATE
@@ -859,7 +859,7 @@ function LandingPage() {
                 </div>
 
 
-                <div className="sm-landing-footer-bottom">
+                <div className="landing-footer-bottom">
 
                     <span>
                         © 2026 StudyMate
@@ -890,15 +890,15 @@ function FeatureCard({
 }) {
 
     return (
-        <article className="sm-landing-feature-card sm-landing-reveal">
+        <article className="landing-feature-card landing-reveal">
 
-            <div className="sm-feature-top">
+            <div className="feature-top">
 
-                <span className="sm-feature-number">
+                <span className="feature-number">
                     {number}
                 </span>
 
-                <span className="sm-feature-icon">
+                <span className="landing-feature-icon">
                     {icon}
                 </span>
 
@@ -913,7 +913,7 @@ function FeatureCard({
                 {description}
             </p>
 
-            <span className="sm-feature-arrow">
+            <span className="feature-arrow">
                 →
             </span>
 
@@ -929,7 +929,7 @@ function LearningPoint({
 }) {
 
     return (
-        <div className="sm-learning-point">
+        <div className="learning-point">
 
             <span>
                 {number}
@@ -959,13 +959,13 @@ function Step({
 }) {
 
     return (
-        <article className="sm-landing-step sm-landing-reveal">
+        <article className="landing-step landing-reveal">
 
-            <div className="sm-step-number">
+            <div className="step-number">
                 {number}
             </div>
 
-            <div className="sm-step-line" />
+            <div className="step-line" />
 
             <h3>
                 {title}

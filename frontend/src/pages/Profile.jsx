@@ -158,11 +158,11 @@ function Profile() {
     if (loading) {
 
         return (
-            <div className="sm-profile-page">
+            <div className="profile-page">
 
-                <div className="sm-profile-loading">
+                <div className="profile-loading">
 
-                    <div className="sm-profile-spinner" />
+                    <div className="profile-spinner" />
 
                     <p>
                         Loading your profile...
@@ -179,11 +179,11 @@ function Profile() {
     if (error) {
 
         return (
-            <div className="sm-profile-page">
+            <div className="profile-page">
 
-                <div className="sm-profile-error">
+                <div className="profile-error">
 
-                    <div className="sm-profile-error-icon">
+                    <div className="profile-error-icon">
                         !
                     </div>
 
@@ -219,17 +219,17 @@ function Profile() {
 
 
     return (
-        <div className="sm-profile-page">
+        <div className="profile-page">
 
             {/* =========================
                 HEADER
             ========================= */}
 
-            <section className="sm-profile-header">
+            <section className="profile-header">
 
                 <div>
 
-                    <span className="sm-profile-eyebrow">
+                    <span className="profile-eyebrow">
                         ACCOUNT
                     </span>
 
@@ -247,7 +247,7 @@ function Profile() {
 
                 <button
                     type="button"
-                    className="sm-profile-back"
+                    className="profile-back"
                     onClick={() =>
                         navigate(
                             "/dashboard"
@@ -264,18 +264,18 @@ function Profile() {
                 PROFILE CARD
             ========================= */}
 
-            <section className="sm-profile-main-card">
+            <section className="profile-main-card">
 
-                <div className="sm-profile-identity">
+                <div className="profile-identity">
 
-                    <div className="sm-profile-avatar">
+                    <div className="profile-avatar">
                         {getInitials()}
                     </div>
 
 
-                    <div className="sm-profile-identity-info">
+                    <div className="profile-identity-info">
 
-                        <span className="sm-profile-label">
+                        <span className="profile-label">
                             STUDENT ACCOUNT
                         </span>
 
@@ -292,7 +292,7 @@ function Profile() {
                 </div>
 
 
-                <div className="sm-profile-account-badge">
+                <div className="profile-account-badge">
 
                     <span>
                         ●
@@ -309,11 +309,11 @@ function Profile() {
                 ACCOUNT INFORMATION
             ========================= */}
 
-            <section className="sm-profile-grid">
+            <section className="profile-grid">
 
-                <div className="sm-profile-card">
+                <div className="profile-card">
 
-                    <div className="sm-profile-card-heading">
+                    <div className="profile-card-heading">
 
                         <div>
 
@@ -327,14 +327,14 @@ function Profile() {
 
                         </div>
 
-                        <div className="sm-profile-card-icon">
+                        <div className="profile-card-icon">
                             ◉
                         </div>
 
                     </div>
 
 
-                    <div className="sm-profile-fields">
+                    <div className="profile-fields">
 
                         <ProfileField
                             label="Name"
@@ -357,9 +357,9 @@ function Profile() {
                 </div>
 
 
-                <div className="sm-profile-card">
+                <div className="profile-card">
 
-                    <div className="sm-profile-card-heading">
+                    <div className="profile-card-heading">
 
                         <div>
 
@@ -373,14 +373,14 @@ function Profile() {
 
                         </div>
 
-                        <div className="sm-profile-card-icon">
+                        <div className="profile-card-icon">
                             ⚙
                         </div>
 
                     </div>
 
 
-                    <div className="sm-profile-preferences">
+                    <div className="profile-preferences">
 
                         <PreferenceRow
                             title="Learning workspace"
@@ -406,9 +406,9 @@ function Profile() {
                 NOTICE
             ========================= */}
 
-            <section className="sm-profile-notice">
+            <section className="profile-notice">
 
-                <div className="sm-profile-notice-icon">
+                <div className="profile-notice-icon">
                     i
                 </div>
 
@@ -446,7 +446,7 @@ function ProfileField({
 }) {
 
     return (
-        <div className="sm-profile-field">
+        <div className="profile-field">
 
             <span>
                 {label}
@@ -476,7 +476,7 @@ function PreferenceRow({
 }) {
 
     return (
-        <div className="sm-profile-preference">
+        <div className="profile-preference">
 
             <div>
 
