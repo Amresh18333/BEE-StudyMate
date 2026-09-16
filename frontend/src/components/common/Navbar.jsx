@@ -5,12 +5,17 @@ import {
 
 import {
     useEffect,
-    useState
+    useState,
+    useRef
 } from "react";
 
 import {
     getCurrentUser
 } from "../../services/userService";
+
+import {
+    searchAll
+} from "../../services/searchService";
 
 
 function Navbar() {
@@ -19,6 +24,12 @@ function Navbar() {
     const navigate = useNavigate();
 
     const [user, setUser] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchResults, setSearchResults] = useState({ subjects: [], topics: [] });
+    const [showResults, setShowResults] = useState(false);
+    const [searchLoading, setSearchLoading] = useState(false);
+    const searchInputRef = useRef(null);
+    const searchContainerRef = useRef(null);
 
 
     useEffect(() => {
@@ -48,6 +59,61 @@ function Navbar() {
     }, []);
 
 
+    useEffect(() => {
+
+        const handleClickOutside = (event) => {
+            if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
+                setShowResults(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+
+    const handleSearchChange = async (event) => {
+        const value = event.target.value;
+        setSearchQuery(value);
+
+        if (!value.trim()) {
+            setSearchResults({ subjects: [], topics: [] });
+            setShowResults(false);
+            return;
+        }
+
+        setSearchLoading(true);
+
+        try {
+            const results = await searchAll(value);
+            setSearchResults(results);
+            setShowResults(true);
+        } catch (error) {
+            console.error("Search failed:", error);
+            setSearchResults({ subjects: [], topics: [] });
+        } finally {
+            setSearchLoading(false);
+        }
+    };
+
+
+    const handleResultClick = (item, type) => {
+        if (type === "subject") {
+            navigate(`/subjects/${item.id}`);
+        } else if (type === "topic") {
+            navigate(`/subjects/${item.subjectId}/topics/${item.id}/study`);
+        }
+        setSearchQuery("");
+        setShowResults(false);
+        if (searchInputRef.current) {
+            searchInputRef.current.blur();
+        }
+    };
+
+
     function getPageTitle() {
 
         const path =
@@ -57,7 +123,9 @@ function Navbar() {
         if (path === "/dashboard") {
             return "Dashboard";
         }
-
+        if (path === "/activity") {
+            return "Study Activity";
+        }
 
         if (path === "/subjects") {
             return "Subjects";
@@ -133,33 +201,108 @@ function Navbar() {
                 </div>
 
 
-                <div className="navbar-search">
+                <div
+                    className="navbar-search-container"
+                    ref={searchContainerRef}
+                >
 
-                    <svg
-                        className="navbar-search-icon"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
-                        <path
-                            d="m21 21-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
+                    <div className="navbar-search">
+
+                        <svg
+                            className="navbar-search-icon"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="m21 21-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                            />
+                        </svg>
+
+
+                        <input
+                            ref={searchInputRef}
+                            type="text"
+                            value={searchQuery}
+                            onChange={handleSearchChange}
+                            placeholder="Search subjects, topics..."
+                            aria-label="Search StudyMate"
+                            autoComplete="off"
                         />
-                    </svg>
 
 
-                    <input
-                        type="text"
-                        placeholder="Search StudyMate..."
-                        aria-label="Search StudyMate"
-                    />
+                        <span className="navbar-search-shortcut">
+                            /
+                        </span>
+
+                    </div>
 
 
-                    <span className="navbar-search-shortcut">
-                        /
-                    </span>
+                    {showResults && (
+                        <div className="navbar-search-results">
+                            {searchLoading && (
+                                <div className="search-loading">
+                                    <div className="search-spinner" />
+                                    <span>Searching...</span>
+                                </div>
+                            )}
+
+                            {!searchLoading && searchResults.subjects.length === 0 && searchResults.topics.length === 0 && searchQuery.trim() && (
+                                <div className="search-empty">
+                                    <span>No results for "{searchQuery}"</span>
+                                </div>
+                            )}
+
+                            {searchResults.subjects.length > 0 && (
+                                <div className="search-section">
+                                    <div className="search-section-label">Subjects</div>
+                                    {searchResults.subjects.map((subject) => (
+                                        <button
+                                            key={subject.id}
+                                            type="button"
+                                            className="search-result-item"
+                                            onClick={() => handleResultClick(subject, "subject")}
+                                        >
+                                            <span className="search-result-icon">◫</span>
+                                            <div className="search-result-info">
+                                                <strong>{subject.name}</strong>
+                                                {subject.description && (
+                                                    <span>{subject.description}</span>
+                                                )}
+                                            </div>
+                                            <span className="search-result-type">Subject</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
+                            {searchResults.topics.length > 0 && (
+                                <div className="search-section">
+                                    <div className="search-section-label">Topics</div>
+                                    {searchResults.topics.map((topic) => (
+                                        <button
+                                            key={topic.id}
+                                            type="button"
+                                            className="search-result-item"
+                                            onClick={() => handleResultClick(topic, "topic")}
+                                        >
+                                            <span className="search-result-icon">◎</span>
+                                            <div className="search-result-info">
+                                                <strong>{topic.name}</strong>
+                                                {topic.description && (
+                                                    <span>{topic.description}</span>
+                                                )}
+                                            </div>
+                                            <span className="search-result-type">Topic</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
 
                 </div>
 

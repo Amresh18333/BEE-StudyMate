@@ -41,7 +41,9 @@ export async function startStudySession(
 export async function endStudySession(sessionId) {
 
     if (!sessionId) {
-        throw new Error("Study session ID is required");
+        throw new Error(
+            "Study session ID is required"
+        );
     }
 
     return apiRequest(
@@ -49,5 +51,21 @@ export async function endStudySession(sessionId) {
         {
             method: "PATCH"
         }
+    );
+}
+
+
+export async function getCurrentUserStudySessions() {
+
+    const userId = getCurrentUserId();
+
+    if (!userId) {
+        throw new Error(
+            "No current user found"
+        );
+    }
+
+    return apiRequest(
+        `/study-sessions/user/${userId}`
     );
 }

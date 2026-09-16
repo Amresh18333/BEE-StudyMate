@@ -1,0 +1,588 @@
+/* =========================================================
+   Shared styling for standalone AI tool pages:
+   Ask AI, Summarizer, Quiz Generator, Study Planner, Resources
+   ========================================================= */
+
+.tool-page {
+  max-width: 1200px;
+}
+
+.pill-badge.subtle {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 600;
+}
+
+.tool-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.tool-form .btn-primary {
+  align-self: flex-start;
+}
+
+.file-hint {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.empty-hint {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ---------- Summarizer ---------- */
+
+.summarizer-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  margin-bottom: 18px;
+}
+
+.summarizer-history h2,
+.planner-history h2 {
+  margin: 0 0 14px;
+  font-size: 17px;
+}
+
+.summarizer-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.summarizer-history-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.summarizer-history-item:hover {
+  border-color: var(--border-light);
+  background: var(--bg-card-hover);
+}
+
+.summarizer-history-item.active {
+  border-color: var(--purple);
+  background: var(--purple-soft);
+}
+
+.summarizer-history-item span {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.summary-result {
+  margin-top: 4px;
+}
+
+.summary-result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.summary-result-header h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.summary-overview {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.summary-block {
+  margin-bottom: 22px;
+}
+
+.summary-block h3 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  color: var(--purple-light);
+}
+
+.summary-section {
+  padding: 14px 16px;
+  border-left: 2px solid var(--border-light);
+  margin-bottom: 12px;
+}
+
+.summary-section h4 {
+  margin: 0 0 6px;
+  font-size: 15px;
+}
+
+.summary-section p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.key-points-list {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.flashcard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+}
+
+.flashcard-q {
+  font-weight: 650;
+  font-size: 13px;
+}
+
+.flashcard-a {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* ---------- Quiz Generator ---------- */
+
+.tool-recent {
+  margin-top: 8px;
+}
+
+.tool-recent-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.tool-recent-header h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.tool-recent-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.tool-recent-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tool-recent-card:hover {
+  border-color: var(--purple);
+  transform: translateY(-2px);
+}
+
+.tool-recent-card span {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* ---------- Study Planner ---------- */
+
+.planner-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.planner-history .summarizer-history-item {
+  cursor: pointer;
+}
+
+.planner-day-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.planner-day-tab {
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.planner-day-tab:hover {
+  border-color: var(--border-light);
+}
+
+.planner-day-tab.active {
+  background: var(--purple-soft);
+  border-color: var(--purple);
+  color: var(--purple-light);
+}
+
+.planner-day-content {
+  margin-bottom: 20px;
+}
+
+.planner-day-focus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+.planner-day-hours {
+  color: var(--purple-light);
+  font-weight: 650;
+}
+
+.planner-task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.planner-task-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-card);
+  font-size: 14px;
+}
+
+.planner-task-check {
+  color: var(--text-muted);
+}
+
+.planner-task-list li span:nth-child(2) {
+  flex: 1;
+  color: var(--text-primary);
+}
+
+.planner-task-duration {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* ---------- Resources: Notes & Video Finder ---------- */
+
+.resource-search-form {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.resource-search-form input {
+  flex: 1;
+  padding: 13px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 15px;
+  outline: none;
+}
+
+.resource-search-form input:focus {
+  border-color: rgba(118, 87, 255, 0.6);
+}
+
+.resource-results {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.resource-section h2 {
+  margin: 0 0 16px;
+  font-size: 18px;
+}
+
+.video-result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.video-result-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg-secondary);
+  transition: all 0.2s ease;
+}
+
+.video-result-card:hover {
+  border-color: var(--purple);
+  transform: translateY(-2px);
+}
+
+.video-thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-card);
+}
+
+.video-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-thumb-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: var(--text-muted);
+}
+
+.video-duration {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-size: 11px;
+}
+
+.video-top-badge {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--purple), #5b5ce2);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.video-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+}
+
+.video-info strong {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.video-info span {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.video-stats {
+  color: var(--text-secondary) !important;
+}
+
+.note-result-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.note-result-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  transition: all 0.2s ease;
+}
+
+.note-result-item:hover {
+  border-color: var(--purple);
+  background: var(--bg-card-hover);
+}
+
+.note-result-icon {
+  font-size: 18px;
+}
+
+.note-result-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.note-result-info strong {
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.note-result-info span {
+  font-size: 12px;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.note-result-source {
+  color: var(--purple-light) !important;
+}
+
+/* ---------- Ask AI ---------- */
+
+.ask-ai-card {
+  display: flex;
+  flex-direction: column;
+  height: 560px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.ask-ai-card .chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.chat-message {
+  display: flex;
+  gap: 12px;
+  max-width: 80%;
+}
+
+.chat-message.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.message-avatar {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  font-size: 15px;
+}
+
+.message-content {
+  padding: 12px 15px;
+  border-radius: 12px;
+  background: var(--bg-secondary);
+}
+
+.chat-message.user .message-content {
+  background: var(--purple-soft);
+}
+
+.message-content p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+}
+
+.ask-ai-card .chat-input-area {
+  display: flex;
+  gap: 10px;
+  padding: 16px 22px;
+  border-top: 1px solid var(--border);
+}
+
+.chat-input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 15px;
+  outline: none;
+}
+
+.chat-input:focus {
+  border-color: rgba(118, 87, 255, 0.6);
+}
+
+@media (max-width: 900px) {
+  .summarizer-layout,
+  .planner-layout {
+    grid-template-columns: 1fr;
+  }
+}

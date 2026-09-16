@@ -23,6 +23,17 @@ def get_topics_by_subject(subject_id):
 
     return list(topics)
 
+
+def get_topics_by_user(user_id):
+    database = get_database()
+
+    topics = database.topics.find({
+        "userId": ObjectId(user_id)
+    }).sort("order", 1)
+
+    return list(topics)
+
+
 def get_topic_by_id(topic_id):
     database = get_database()
 

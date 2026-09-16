@@ -1,5 +1,9 @@
 import { apiRequest } from "./api";
 
+import {
+    getCurrentUserId
+} from "./currentUserService";
+
 
 export async function getTopicsForSubject(subjectId) {
 
@@ -22,4 +26,15 @@ export async function getTopicById(topicId) {
     return apiRequest(
         `/topics/${topicId}`
     );
+}
+
+
+export async function getTopics() {
+    const userId = getCurrentUserId();
+
+    if (!userId) {
+        return [];
+    }
+
+    return apiRequest(`/topics/user/${userId}`);
 } 

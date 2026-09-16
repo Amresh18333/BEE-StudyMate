@@ -4,6 +4,7 @@ import {
 } from "react";
 
 import {
+    Link,
     useLocation,
     useNavigate,
     useParams
@@ -496,6 +497,19 @@ function TopicStudy() {
                         </p>
 
                     </div>
+
+
+                    <Link
+                        to={`/subjects/${subjectId}/topics/${topicId}/tutor`}
+                        className="topic-ai-tutor-link"
+                    >
+                        <span>🤖</span>
+                        <div>
+                            <strong>AI Tutor</strong>
+                            <span>Get help understanding this topic</span>
+                        </div>
+                        <span>→</span>
+                    </Link>
 
                 </aside>
 

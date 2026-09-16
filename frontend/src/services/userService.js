@@ -20,3 +20,14 @@ export async function getCurrentUser() {
 
     return getUser(userId);
 }
+
+
+export async function updateUser(userId, updateData) {
+    return apiRequest(
+        `/users/${userId}`,
+        {
+            method: "PUT",
+            body: JSON.stringify(updateData)
+        }
+    );
+}
