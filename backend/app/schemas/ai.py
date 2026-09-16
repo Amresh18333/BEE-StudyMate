@@ -17,3 +17,16 @@ class GenerateTopicContentResponse(BaseModel):
     content: TopicContent
     difficulty: str
     estimatedMinutes: int
+
+
+class QuizQuestion(BaseModel):
+    question: str
+    options: list[str]
+    correctAnswer: int
+
+
+class GenerateQuizResponse(BaseModel):
+    topicId: str
+    title: str
+    questions: list[QuizQuestion]
+    difficulty: str

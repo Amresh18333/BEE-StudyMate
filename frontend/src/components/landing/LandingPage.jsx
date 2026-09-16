@@ -1,12 +1,24 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { getCurrentUserId } from "../../services/currentUserService";
+
 import "./LandingPage.css";
 
 
 function LandingPage() {
 
     const navigate = useNavigate();
+
+    // Signed-in users skip straight to the dashboard; everyone else
+    // is routed into the real auth flow instead of the app itself.
+    function goToApp() {
+        navigate(getCurrentUserId() ? "/dashboard" : "/signup");
+    }
+
+    function goToSignIn() {
+        navigate(getCurrentUserId() ? "/dashboard" : "/login");
+    }
 
 
     useEffect(() => {
@@ -145,11 +157,7 @@ function LandingPage() {
                         <button
                             type="button"
                             className="landing-signin"
-                            onClick={() =>
-                                navigate(
-                                    "/dashboard"
-                                )
-                            }
+                            onClick={goToSignIn}
                         >
                             Sign in
                         </button>
@@ -157,11 +165,7 @@ function LandingPage() {
                         <button
                             type="button"
                             className="landing-nav-cta"
-                            onClick={() =>
-                                navigate(
-                                    "/dashboard"
-                                )
-                            }
+                            onClick={goToApp}
                         >
                             Get Started
                             <span>
@@ -234,11 +238,7 @@ function LandingPage() {
                                 <button
                                     type="button"
                                     className="landing-primary-button"
-                                    onClick={() =>
-                                        navigate(
-                                            "/dashboard"
-                                        )
-                                    }
+                                    onClick={goToApp}
                                 >
                                     Start Learning
                                     <span>
@@ -703,11 +703,7 @@ function LandingPage() {
 
                             <button
                                 type="button"
-                                onClick={() =>
-                                    navigate(
-                                        "/dashboard"
-                                    )
-                                }
+                                onClick={goToApp}
                             >
                                 Open StudyMate
                                 <span>
@@ -845,11 +841,7 @@ function LandingPage() {
 
                         <button
                             type="button"
-                            onClick={() =>
-                                navigate(
-                                    "/dashboard"
-                                )
-                            }
+                            onClick={goToApp}
                         >
                             Get Started
                         </button>

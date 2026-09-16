@@ -4,6 +4,7 @@ from app.schemas.topic import TopicResponse
 
 from app.services.topic_service import (
     get_topics_by_subject,
+    get_topics_by_user,
     get_topic_by_id
 )
 
@@ -67,6 +68,45 @@ def get_subject_topics(subject_id: str):
     validate_object_id(subject_id)
 
     topics = get_topics_by_subject(subject_id)
+
+    return [
+        {
+            "id": str(topic["_id"]),
+            "userId": str(topic["userId"]),
+            "subjectId": str(topic["subjectId"]),
+            "name": topic["name"],
+            "description": topic["description"],
+            "order": topic["order"],
+            "content": topic.get(
+                "content",
+                {
+                    "sections": [],
+                    "keyPoints": [],
+                    "examples": []
+                }
+            ),
+            "difficulty": topic.get(
+                "difficulty",
+                "beginner"
+            ),
+            "estimatedMinutes": topic.get(
+                "estimatedMinutes",
+                30
+            )
+        }
+        for topic in topics
+    ]
+
+
+@router.get(
+    "/user/{user_id}",
+    response_model=list[TopicResponse]
+)
+def get_user_topics(user_id: str):
+
+    validate_object_id(user_id)
+
+    topics = get_topics_by_user(user_id)
 
     return [
         {

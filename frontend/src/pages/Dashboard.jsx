@@ -32,6 +32,8 @@ function Dashboard() {
         user,
         subjects,
         progress,
+        studySessions,
+        quizAttempts,
         loading,
         error
     } = useDashboardData();
@@ -40,13 +42,6 @@ function Dashboard() {
     const overallProgress =
         calculateOverallProgress(progress);
 
-
-    /*
-     * Calculate useful statistics from the
-     * progress records we already receive.
-     *
-     * No new backend request is required.
-     */
 
     const statistics = useMemo(() => {
 
@@ -77,14 +72,89 @@ function Dashboard() {
     }, [progress]);
 
 
-    /*
-     * Find the topic with the highest
-     * completion percentage.
-     *
-     * We only have progress records here,
-     * so we don't pretend these are necessarily
-     * all topics in the database.
-     */
+    const studyStats = useMemo(() => {
+
+        const completedSessions =
+            studySessions.filter(s => s.endedAt);
+
+        const totalMinutes =
+            completedSessions.reduce(
+                (sum, s) => sum + (s.durationMinutes || 0),
+                0
+            );
+
+        const uniqueTopics =
+            new Set(
+                studySessions.map(s => String(s.topicId))
+            ).size;
+
+        const uniqueSubjects =
+            new Set(
+                studySessions.map(s => String(s.subjectId))
+            ).size;
+
+        const thisWeek = studySessions.filter(s => {
+            const started = new Date(s.startedAt);
+            const weekAgo = new Date();
+            weekAgo.setDate(weekAgo.getDate() - 7);
+            return started >= weekAgo;
+        }).length;
+
+        const avgSessionMinutes =
+            completedSessions.length > 0
+                ? Math.round(totalMinutes / completedSessions.length)
+                : 0;
+
+        return {
+            totalSessions: studySessions.length,
+            completedSessions: completedSessions.length,
+            totalMinutes,
+            totalHours: Math.floor(totalMinutes / 60),
+            remainingMinutes: totalMinutes % 60,
+            uniqueTopics,
+            uniqueSubjects,
+            thisWeek,
+            avgSessionMinutes
+        };
+
+    }, [studySessions]);
+
+
+    const quizStats = useMemo(() => {
+
+        if (!quizAttempts.length) {
+            return {
+                totalAttempts: 0,
+                avgScore: 0,
+                bestScore: 0,
+                passedCount: 0
+            };
+        }
+
+        const scores = quizAttempts.map(
+            a => (a.score / a.totalQuestions) * 100
+        );
+
+        const avgScore =
+            Math.round(
+                scores.reduce((a, b) => a + b, 0) / scores.length
+            );
+
+        const bestScore =
+            Math.round(Math.max(...scores));
+
+        const passedCount =
+            scores.filter(s => s >= 60).length;
+
+        return {
+            totalAttempts: quizAttempts.length,
+            avgScore,
+            bestScore,
+            passedCount
+        };
+
+    }, [quizAttempts]);
+
 
     const continueProgress = useMemo(() => {
 
@@ -104,6 +174,100 @@ function Dashboard() {
             )[0] || null;
 
     }, [progress]);
+
+
+    const recentActivity = useMemo(() => {
+
+        const activities = [];
+
+        studySessions
+            .filter(s => s.endedAt)
+            .slice(0, 3)
+            .forEach(s => {
+                activities.push({
+                    type: "study",
+                    title: "Studied topic",
+                    time: s.endedAt,
+                    duration: s.durationMinutes
+                });
+            });
+
+        quizAttempts
+            .slice(0, 3)
+            .forEach(a => {
+                const percentage = Math.round((a.score / a.totalQuestions) * 100);
+                activities.push({
+                    type: "quiz",
+                    title: `Quiz completed - ${percentage}%`,
+                    time: a.completedAt,
+                    score: percentage
+                });
+            });
+
+        return activities
+            .sort((a, b) => new Date(b.time) - new Date(a.time))
+            .slice(0, 5);
+
+    }, [studySessions, quizAttempts]);
+
+
+    const recommendations = useMemo(() => {
+
+        const recs = [];
+
+        if (subjects.length === 0) {
+            recs.push({
+                type: "create-subject",
+                title: "Create your first subject",
+                description: "Add a subject to start organizing your learning.",
+                action: () => navigate("/subjects"),
+                actionLabel: "Add Subject"
+            });
+        }
+
+        if (progress.length === 0 && subjects.length > 0) {
+            recs.push({
+                type: "start-studying",
+                title: "Start studying a topic",
+                description: "Pick a topic from your subjects and begin learning.",
+                action: () => navigate("/subjects"),
+                actionLabel: "Browse Topics"
+            });
+        }
+
+        if (studyStats.totalSessions === 0 && progress.length > 0) {
+            recs.push({
+                type: "track-time",
+                title: "Track your study time",
+                description: "Start a study session to measure how long you spend learning.",
+                action: () => navigate("/subjects"),
+                actionLabel: "Start Session"
+            });
+        }
+
+        if (quizStats.totalAttempts === 0 && progress.length > 0) {
+            recs.push({
+                type: "take-quiz",
+                title: "Test your knowledge",
+                description: "Take a quiz to check your understanding of studied topics.",
+                action: () => navigate("/subjects"),
+                actionLabel: "Take Quiz"
+            });
+        }
+
+        if (studyStats.thisWeek === 0 && studyStats.totalSessions > 0) {
+            recs.push({
+                type: "study-this-week",
+                title: "Study this week",
+                description: "You haven't studied this week yet. Even 15 minutes helps.",
+                action: () => navigate("/subjects"),
+                actionLabel: "Continue Learning"
+            });
+        }
+
+        return recs.slice(0, 3);
+
+    }, [subjects, progress, studyStats, quizStats, navigate]);
 
 
     if (loading) {
@@ -252,7 +416,13 @@ function Dashboard() {
                 </button>
 
 
-                <div className="dashboard-action dashboard-action-disabled">
+                <button
+                    type="button"
+                    className="dashboard-action"
+                    onClick={() =>
+                        navigate("/quiz/history")
+                    }
+                >
 
                     <div className="dashboard-action-icon">
                         ✦
@@ -261,22 +431,93 @@ function Dashboard() {
                     <div>
 
                         <span>
-                            AI FEATURES
+                            QUIZZES
                         </span>
 
                         <strong>
-                            Coming soon
+                            {quizStats.totalAttempts} attempt
+                            {quizStats.totalAttempts !== 1 ? "s" : ""}
                         </strong>
 
                         <p>
-                            AI tutor and intelligent study tools.
+                            {quizStats.totalAttempts > 0
+                                ? `Average score: ${quizStats.avgScore}%`
+                                : "Test your knowledge with practice quizzes."}
                         </p>
 
                     </div>
 
-                    <span className="dashboard-coming">
-                        SOON
+                    <span className="dashboard-action-arrow">
+                        →
                     </span>
+
+                </button>
+
+            </section>
+
+
+            {/* =========================
+                AI STUDY TOOLS
+            ========================= */}
+
+            <section className="dashboard-section">
+
+                <div className="dashboard-section-header">
+                    <h2>AI Study Tools</h2>
+                    <p>Everything powered by AI, in one place.</p>
+                </div>
+
+                <div className="ai-tools-grid">
+
+                    <button
+                        type="button"
+                        className="ai-tool-card"
+                        onClick={() => navigate("/ask-ai")}
+                    >
+                        <span className="ai-tool-icon">💬</span>
+                        <strong>Ask AI</strong>
+                        <p>Get instant answers to any question.</p>
+                    </button>
+
+                    <button
+                        type="button"
+                        className="ai-tool-card"
+                        onClick={() => navigate("/summarizer")}
+                    >
+                        <span className="ai-tool-icon">📄</span>
+                        <strong>Summarizer</strong>
+                        <p>Upload a PDF and get a structured summary.</p>
+                    </button>
+
+                    <button
+                        type="button"
+                        className="ai-tool-card"
+                        onClick={() => navigate("/quiz/generate")}
+                    >
+                        <span className="ai-tool-icon">✦</span>
+                        <strong>Quiz Generator</strong>
+                        <p>Turn any topic into a practice quiz.</p>
+                    </button>
+
+                    <button
+                        type="button"
+                        className="ai-tool-card"
+                        onClick={() => navigate("/study-planner")}
+                    >
+                        <span className="ai-tool-icon">🗓️</span>
+                        <strong>Study Planner</strong>
+                        <p>Get a day-by-day plan for your goal.</p>
+                    </button>
+
+                    <button
+                        type="button"
+                        className="ai-tool-card"
+                        onClick={() => navigate("/resources")}
+                    >
+                        <span className="ai-tool-icon">🔎</span>
+                        <strong>Notes &amp; Videos</strong>
+                        <p>Find free notes and top-rated videos.</p>
+                    </button>
 
                 </div>
 
@@ -356,7 +597,178 @@ function Dashboard() {
 
                 </div>
 
+
+                <div className="dashboard-stat">
+
+                    <span className="dashboard-stat-label">
+                        STUDY TIME
+                    </span>
+
+                    <strong>
+                        {studyStats.totalHours > 0
+                            ? `${studyStats.totalHours}h ${studyStats.remainingMinutes}m`
+                            : `${studyStats.remainingMinutes}m`}
+                    </strong>
+
+                    <span className="dashboard-stat-description">
+                        {studyStats.completedSessions} session{studyStats.completedSessions !== 1 ? "s" : ""}
+                    </span>
+
+                </div>
+
+
+                <div className="dashboard-stat">
+
+                    <span className="dashboard-stat-label">
+                        QUIZ AVERAGE
+                    </span>
+
+                    <strong>
+                        {quizStats.totalAttempts > 0 ? `${quizStats.avgScore}%` : "—"}
+                    </strong>
+
+                    <span className="dashboard-stat-description">
+                        {quizStats.totalAttempts} attempt{quizStats.totalAttempts !== 1 ? "s" : ""}
+                    </span>
+
+                </div>
+
             </section>
+
+
+            {/* =========================
+                RECENT ACTIVITY
+            ========================= */}
+
+            {recentActivity.length > 0 && (
+                <section className="dashboard-recent-activity">
+
+                    <div className="dashboard-continue-header">
+
+                        <div>
+
+                            <span className="section-label">
+                                RECENT ACTIVITY
+                            </span>
+
+                            <h2>
+                                Your latest sessions
+                            </h2>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            className="text-button"
+                            onClick={() => navigate("/activity")}
+                        >
+                            View all
+                            <span>→</span>
+                        </button>
+
+                    </div>
+
+
+                    <div className="activity-list">
+                        {recentActivity.map((activity, index) => (
+                            <div
+                                key={index}
+                                className={`activity-item ${activity.type}`}
+                            >
+
+                                <div className="activity-icon">
+                                    {activity.type === "study" ? "◷" : "✦"}
+                                </div>
+
+                                <div className="activity-info">
+                                    <strong>{activity.title}</strong>
+                                    <span>
+                                        {new Date(activity.time).toLocaleDateString(undefined, {
+                                            day: "numeric",
+                                            month: "short",
+                                            hour: "numeric",
+                                            minute: "2-digit"
+                                        })}
+                                    </span>
+                                </div>
+
+                                <div className="activity-detail">
+                                    {activity.type === "study" ? (
+                                        <>
+                                            {activity.duration} min
+                                        </>
+                                    ) : (
+                                        <>
+                                            {activity.score}% score
+                                        </>
+                                    )}
+                                </div>
+
+                            </div>
+                        ))}
+                    </div>
+
+                </section>
+            )}
+
+
+            {/* =========================
+                RECOMMENDATIONS
+            ========================= */}
+
+            {recommendations.length > 0 && (
+                <section className="dashboard-recommendations">
+
+                    <div className="dashboard-continue-header">
+
+                        <div>
+
+                            <span className="section-label">
+                                RECOMMENDED
+                            </span>
+
+                            <h2>
+                                Suggested next steps
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div className="recommendation-cards">
+                        {recommendations.map((rec, index) => (
+                            <button
+                                key={index}
+                                type="button"
+                                className="recommendation-card"
+                                onClick={rec.action}
+                            >
+
+                                <div className="recommendation-icon">
+                                    {rec.type === "create-subject" && "+"}
+                                    {rec.type === "start-studying" && "◫"}
+                                    {rec.type === "track-time" && "◷"}
+                                    {rec.type === "take-quiz" && "✦"}
+                                    {rec.type === "study-this-week" && "→"}
+                                </div>
+
+                                <div className="recommendation-content">
+                                    <strong>{rec.title}</strong>
+                                    <p>{rec.description}</p>
+                                </div>
+
+                                <span className="recommendation-action">
+                                    {rec.actionLabel}
+                                    <span>→</span>
+                                </span>
+
+                            </button>
+                        ))}
+                    </div>
+
+                </section>
+            )}
 
 
             {/* =========================
@@ -680,7 +1092,6 @@ function Dashboard() {
 
                                         </button>
                                     );
-
                                 }
                             )}
 

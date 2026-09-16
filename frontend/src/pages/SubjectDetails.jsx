@@ -573,25 +573,35 @@ function TopicRow({
             </div>
 
 
-            <button
-                type="button"
-                className="topic-study-button"
-                onClick={handleStudy}
-                disabled={starting}
-            >
+            <div className="topic-actions">
+                <button
+                    type="button"
+                    className="topic-study-button"
+                    onClick={handleStudy}
+                    disabled={starting}
+                >
 
-                {starting
-                    ? "Starting..."
-                    : "Study"
-                }
+                    {starting
+                        ? "Starting..."
+                        : "Study"
+                    }
 
-                {!starting && (
-                    <span>
-                        →
-                    </span>
-                )}
+                    {!starting && (
+                        <span>
+                            →
+                        </span>
+                    )}
 
-            </button>
+                </button>
+
+                <Link
+                    to={`/subjects/${subjectId}/topics/${topic.id}/quiz`}
+                    className="topic-quiz-button"
+                >
+                    Quiz
+                    <span>→</span>
+                </Link>
+            </div>
 
         </article>
     );

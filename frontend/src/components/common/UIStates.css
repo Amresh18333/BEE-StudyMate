@@ -1,0 +1,191 @@
+/* =========================================================
+   STUDYMATE UI STATES
+   ========================================================= */
+
+/* Loading States */
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--text-muted);
+}
+
+.loading-state-small {
+  padding: 20px;
+  font-size: 13px;
+}
+
+.loading-state-medium {
+  min-height: 200px;
+  padding: 40px;
+  font-size: 15px;
+}
+
+.loading-state-large {
+  min-height: 300px;
+  padding: 60px;
+  font-size: 17px;
+}
+
+.loading-spinner {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--border);
+  border-top-color: var(--purple);
+  border-radius: 50%;
+  animation: loading-spin 0.8s linear infinite;
+}
+
+.loading-state-large .loading-spinner {
+  width: 36px;
+  height: 36px;
+  border-width: 3px;
+}
+
+@keyframes loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error States */
+
+.error-state {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 24px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 14px;
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.error-state-icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 11px;
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--red);
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.error-state-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.error-state-content h2 {
+  margin: 0 0 6px;
+  color: var(--text-primary);
+  font-size: 17px;
+}
+
+.error-state-content p {
+  margin: 0 0 16px;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.error-state-content .btn-primary {
+  padding: 10px 18px;
+  font-size: 13px;
+}
+
+.page-error {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+/* Empty States */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+  gap: 16px;
+}
+
+.empty-state-icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--purple-soft);
+  color: var(--purple-light);
+  font-size: 24px;
+}
+
+.empty-state-content {
+  max-width: 320px;
+}
+
+.empty-state-content h3 {
+  margin: 0 0 8px;
+  color: var(--text-primary);
+  font-size: 18px;
+}
+
+.empty-state-content p {
+  margin: 0 0 16px;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.empty-state-content .btn-primary {
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.page-empty {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.page-loading {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+/* Responsive */
+
+@media (max-width: 600px) {
+  .error-state {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .empty-state {
+    padding: 30px 16px;
+  }
+
+  .empty-state-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+}

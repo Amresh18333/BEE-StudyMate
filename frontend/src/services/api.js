@@ -12,10 +12,19 @@ export async function apiRequest(endpoint, options = {}) {
         }
     );
 
-    const data = await response.json();
+    // 204 No Content (e.g. DELETE endpoints) has no body to parse.
+    if (response.status === 204) {
+        if (!response.ok) {
+            throw new Error("Something went wrong");
+        }
+        return null;
+    }
+
+    const text = await response.text();
+    const data = text ? JSON.parse(text) : null;
 
     if (!response.ok) {
-        throw new Error(data.detail || "Something went wrong");
+        throw new Error((data && data.detail) || "Something went wrong");
     }
 
     return data;
