@@ -271,7 +271,7 @@ function Profile() {
     if (loading) {
 
         return (
-            <div className="profile-page">
+            <div className="page profile-page">
 
                 <div className="profile-loading">
 
@@ -292,7 +292,7 @@ function Profile() {
     if (error) {
 
         return (
-            <div className="profile-page">
+            <div className="page profile-page">
 
                 <div className="profile-error">
 
@@ -330,7 +330,7 @@ function Profile() {
 
 
     return (
-        <div className="profile-page">
+        <div className="page profile-page">
 
             {/* =========================
                 HEADER
