@@ -123,16 +123,10 @@ def ai_chat(request: ChatRequest):
 
     try:
 
-        from openai import OpenAI
-        from app.config import settings
-
-        client = OpenAI(
-            base_url="https://integrate.api.nvidia.com/v1",
-            api_key=settings.nvidia_api_key
-        )
+        from app.services.ai_service import client, NVIDIA_MODEL
 
         response = client.chat.completions.create(
-            model="nvidia/nemotron-3-nano-30b-a3b",
+            model=NVIDIA_MODEL,
             messages=[
                 {
                     "role": "system",
@@ -152,8 +146,5 @@ def ai_chat(request: ChatRequest):
         }
 
     except Exception as error:
-
-        raise HTTPException(
-            status_code=500,
-            detail="Failed to process chat request"
-        )
+        print(f"CHAT ERROR: {error}")
+        raise HTTPException(status_code=500, detail="Failed to process chat request")

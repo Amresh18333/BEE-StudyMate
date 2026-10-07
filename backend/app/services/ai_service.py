@@ -12,7 +12,7 @@ client = OpenAI(
     base_url="https://integrate.api.nvidia.com/v1",
     api_key=settings.nvidia_api_key
 )
-
+NVIDIA_MODEL = "nvidia/nemotron-3.5-lightning-30b-a3b"
 
 def get_topic(topic_id: str):
 
@@ -149,7 +149,7 @@ Requirements:
 """
 
     response = client.chat.completions.create(
-        model="nvidia/nemotron-3-nano-30b-a3b",
+        model=NVIDIA_MODEL,
         messages=[
             {
                 "role": "system",
@@ -307,7 +307,7 @@ Requirements:
 """
 
     response = client.chat.completions.create(
-        model="nvidia/nemotron-3-nano-30b-a3b",
+        model=NVIDIA_MODEL,
         messages=[
             {
                 "role": "system",
@@ -433,7 +433,7 @@ Requirements:
 """
 
     response = client.chat.completions.create(
-        model="nvidia/nemotron-3-nano-30b-a3b",
+        model=NVIDIA_MODEL,
         messages=[
             {
                 "role": "system",
