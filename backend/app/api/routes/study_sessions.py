@@ -1,5 +1,9 @@
 from fastapi import APIRouter, HTTPException
 
+from bson import ObjectId
+
+from app.database.connection import get_database
+from app.services import memory_service as memory
 from app.utils.exceptions import validate_object_id
 
 from app.schemas.study_session import (
@@ -62,6 +66,12 @@ def finish_study_session(session_id: str):
 
     validate_object_id(session_id)
 
+    # Only count the session in memory the first time it is ended.
+    already = get_database().study_sessions.find_one(
+        {"_id": ObjectId(session_id)}, {"endedAt": 1}
+    )
+    was_open = bool(already) and already.get("endedAt") is None
+
     session = end_study_session(session_id)
 
     if session is None:
@@ -69,6 +79,9 @@ def finish_study_session(session_id: str):
             status_code=404,
             detail="Study session not found"
         )
+
+    if was_open:
+        memory.record_study(str(session["userId"]), session["durationMinutes"])
 
     return {
         "id": str(session["_id"]),

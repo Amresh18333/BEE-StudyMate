@@ -26,11 +26,11 @@ def get_user(user_id: str):
         "id": str(user["_id"]),
         "name": user["name"],
         "email": user["email"],
-        "education": user["education"],
-        "college": user["college"],
-        "course": user["course"],
-        "semester": user["semester"],
-        "goals": user["goals"],
+        "education": user.get("education", ""),
+        "college": user.get("college", ""),
+        "course": user.get("course", ""),
+        "semester": user.get("semester"),
+        "goals": user.get("goals", []),
     }
 
 
@@ -52,9 +52,9 @@ def update_user_profile(user_id: str, user_update: UserUpdate):
         "id": str(updated_user["_id"]),
         "name": updated_user["name"],
         "email": updated_user["email"],
-        "education": updated_user["education"],
-        "college": updated_user["college"],
-        "course": updated_user["course"],
-        "semester": updated_user["semester"],
-        "goals": updated_user["goals"],
+        "education": updated_user.get("education", ""),
+        "college": updated_user.get("college", ""),
+        "course": updated_user.get("course", ""),
+        "semester": updated_user.get("semester"),
+        "goals": updated_user.get("goals", []),
     }

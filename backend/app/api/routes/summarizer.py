@@ -1,9 +1,11 @@
 from fastapi import APIRouter, HTTPException, UploadFile, File, Form
+from fastapi.concurrency import run_in_threadpool
 
 from app.schemas.summarizer import SummaryResponse
 from app.services.summarizer_service import (
-    extract_text_from_pdf,
-    summarize_text,
+    AiUnavailable,
+    PdfProblem,
+    summarize_pdf_bytes,
     create_summary,
     get_summaries_by_user,
     get_summary_by_id,
@@ -11,6 +13,7 @@ from app.services.summarizer_service import (
 )
 from app.models.summary import Summary
 from app.utils.exceptions import validate_object_id
+from app.services import memory_service as memory
 
 router = APIRouter(
     prefix="/summarizer",
@@ -65,11 +68,13 @@ async def upload_and_summarize(
         )
 
     try:
-        extracted_text = extract_text_from_pdf(file_bytes)
-
-        result = summarize_text(
-            extracted_text,
-            title_hint=title or file.filename
+        # Runs in a worker thread so a long PDF does not block other requests.
+        result = await run_in_threadpool(
+            summarize_pdf_bytes,
+            file_bytes,
+            title or file.filename,
+            None,
+            userId,
         )
 
         summary = Summary(
@@ -78,15 +83,19 @@ async def upload_and_summarize(
             title=result["title"],
             file_name=file.filename,
             summary=result["summary"],
-            source_char_count=len(extracted_text),
+            source_char_count=result["char_count"],
         )
 
         summary_id = create_summary(summary)
+        memory.record_summary(userId, result["title"])
         created = get_summary_by_id(summary_id)
 
         return _format_summary_response(created)
 
-    except ValueError as error:
+    except AiUnavailable as error:
+        raise HTTPException(status_code=503, detail=str(error))
+
+    except (PdfProblem, ValueError) as error:
         raise HTTPException(status_code=400, detail=str(error))
 
     except Exception:

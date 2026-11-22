@@ -1,6 +1,17 @@
 import { getCurrentUserId } from "./currentUserService";
+import { API_BASE_URL } from "./api";
 
-const API_BASE_URL = "http://127.0.0.1:8000/api/v1";
+const SUMMARIZER_URL = `${API_BASE_URL}/api/v1/summarizer`;
+
+
+async function readJson(response) {
+    const text = await response.text();
+    try {
+        return text ? JSON.parse(text) : {};
+    } catch {
+        return {};
+    }
+}
 
 
 export async function uploadAndSummarize(file, { subjectId, title } = {}) {
@@ -22,12 +33,12 @@ export async function uploadAndSummarize(file, { subjectId, title } = {}) {
         formData.append("title", title);
     }
 
-    const response = await fetch(`${API_BASE_URL}/summarizer/upload`, {
+    const response = await fetch(`${SUMMARIZER_URL}/upload`, {
         method: "POST",
         body: formData
     });
 
-    const data = await response.json();
+    const data = await readJson(response);
 
     if (!response.ok) {
         throw new Error(data.detail || "Failed to summarize document");
@@ -45,11 +56,11 @@ export async function getMySummaries(subjectId = null) {
     }
 
     const endpoint = subjectId
-        ? `${API_BASE_URL}/summarizer/user/${userId}?subject_id=${subjectId}`
-        : `${API_BASE_URL}/summarizer/user/${userId}`;
+        ? `${SUMMARIZER_URL}/user/${userId}?subject_id=${subjectId}`
+        : `${SUMMARIZER_URL}/user/${userId}`;
 
     const response = await fetch(endpoint);
-    const data = await response.json();
+    const data = await readJson(response);
 
     if (!response.ok) {
         throw new Error(data.detail || "Failed to load summaries");
@@ -60,8 +71,8 @@ export async function getMySummaries(subjectId = null) {
 
 
 export async function getSummaryById(summaryId) {
-    const response = await fetch(`${API_BASE_URL}/summarizer/${summaryId}`);
-    const data = await response.json();
+    const response = await fetch(`${SUMMARIZER_URL}/${summaryId}`);
+    const data = await readJson(response);
 
     if (!response.ok) {
         throw new Error(data.detail || "Failed to load summary");
@@ -72,12 +83,12 @@ export async function getSummaryById(summaryId) {
 
 
 export async function deleteSummary(summaryId) {
-    const response = await fetch(`${API_BASE_URL}/summarizer/${summaryId}`, {
+    const response = await fetch(`${SUMMARIZER_URL}/${summaryId}`, {
         method: "DELETE"
     });
 
     if (!response.ok && response.status !== 204) {
-        const data = await response.json().catch(() => ({}));
+        const data = await readJson(response).catch(() => ({}));
         throw new Error(data.detail || "Failed to delete summary");
     }
 

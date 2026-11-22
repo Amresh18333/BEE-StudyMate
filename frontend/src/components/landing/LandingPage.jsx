@@ -16,8 +16,10 @@ function LandingPage() {
         navigate(getCurrentUserId() ? "/dashboard" : "/signup");
     }
 
+    // The Login button always opens the email/password form. The Login page
+    // clears any old saved session, so nobody lands in the app without signing in.
     function goToSignIn() {
-        navigate(getCurrentUserId() ? "/dashboard" : "/login");
+        navigate("/login");
     }
 
 

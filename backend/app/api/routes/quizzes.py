@@ -19,6 +19,7 @@ from app.services.quiz_service import (
 from app.services.ai_service import generate_quiz_standalone
 from app.models.quiz import Quiz, QuizAttempt
 from app.utils.exceptions import validate_object_id
+from app.services import memory_service as memory
 
 router = APIRouter(
     prefix="/quizzes",
@@ -100,6 +101,7 @@ def generate_and_save_quiz(request: QuizGenerateRequest):
             description=request.description or "",
             num_questions=request.numQuestions,
             difficulty=request.difficulty,
+            user_id=request.userId,
         )
 
         quiz = Quiz(
@@ -202,9 +204,19 @@ def submit_quiz(quiz_id: str, submit_data: QuizSubmit):
         answers=answers,
         score=score,
         total_questions=total_questions,
+        time_spent_seconds=submit_data.timeSpentSeconds,
     )
 
     attempt_id = create_quiz_attempt(attempt)
+
+    # Learner memory (best-effort, never breaks the quiz)
+    memory.record_quiz(
+        str(quiz["userId"]),
+        quiz.get("topicName") or quiz.get("title"),
+        score,
+        total_questions,
+        submit_data.timeSpentSeconds,
+    )
 
     created_attempt = get_quiz_attempt_by_id(attempt_id)
 
@@ -215,6 +227,7 @@ def submit_quiz(quiz_id: str, submit_data: QuizSubmit):
         "answers": created_attempt["answers"],
         "score": created_attempt["score"],
         "totalQuestions": created_attempt["totalQuestions"],
+        "timeSpentSeconds": created_attempt.get("timeSpentSeconds", 0),
         "completedAt": created_attempt["completedAt"],
     }
 
@@ -236,6 +249,7 @@ def get_user_quiz_attempts(user_id: str, quiz_id: str = None):
             "answers": attempt["answers"],
             "score": attempt["score"],
             "totalQuestions": attempt["totalQuestions"],
+            "timeSpentSeconds": attempt.get("timeSpentSeconds", 0),
             "completedAt": attempt["completedAt"],
         }
         for attempt in attempts
@@ -258,5 +272,6 @@ def get_quiz_attempt(attempt_id: str):
         "answers": attempt["answers"],
         "score": attempt["score"],
         "totalQuestions": attempt["totalQuestions"],
+        "timeSpentSeconds": attempt.get("timeSpentSeconds", 0),
         "completedAt": attempt["completedAt"],
     }

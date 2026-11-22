@@ -1,4 +1,5 @@
 import { apiRequest } from "./api";
+import { getCurrentUserId } from "./currentUserService";
 
 
 export async function findResources(query, { notesLimit = 6, videosLimit = 3 } = {}) {
@@ -11,6 +12,11 @@ export async function findResources(query, { notesLimit = 6, videosLimit = 3 } =
         notes_limit: notesLimit,
         videos_limit: videosLimit
     });
+
+    const userId = getCurrentUserId();
+    if (userId) {
+        params.set("user_id", userId);
+    }
 
     return apiRequest(`/resources?${params.toString()}`);
 }

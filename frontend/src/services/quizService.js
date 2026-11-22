@@ -87,12 +87,12 @@ export async function getMyQuizzes() {
 }
 
 
-export async function submitQuiz(quizId, answers) {
+export async function submitQuiz(quizId, answers, timeSpentSeconds = 0) {
     return apiRequest(
         `/quizzes/${quizId}/submit`,
         {
             method: "POST",
-            body: JSON.stringify({ answers })
+            body: JSON.stringify({ answers, timeSpentSeconds })
         }
     );
 }

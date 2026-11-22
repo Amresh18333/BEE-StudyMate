@@ -2,6 +2,7 @@ from app.database.connection import get_database
 from app.models.user import User
 from bson import ObjectId
 from datetime import datetime
+import re
 
 
 def create_user(user):
@@ -16,14 +17,26 @@ def create_user(user):
 
 def email_exists(email):
     database = get_database()
+    normalized_email = email.strip().lower()
 
-    return database.users.find_one({"email": email.strip().lower()}) is not None
+    return database.users.find_one({
+        "email": {
+            "$regex": f"^{re.escape(normalized_email)}$",
+            "$options": "i",
+        }
+    }) is not None
 
 
 def get_user_by_email(email):
     database = get_database()
+    normalized_email = email.strip().lower()
 
-    user = database.users.find_one({"email": email})
+    user = database.users.find_one({
+        "email": {
+            "$regex": f"^{re.escape(normalized_email)}$",
+            "$options": "i",
+        }
+    })
 
     return user
 

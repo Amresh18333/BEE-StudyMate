@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import { login } from "../services/authService";
+import { login, logout } from "../services/authService";
 
 import "./Auth.css";
 
@@ -15,6 +15,13 @@ function Login() {
     const [password, setPassword] = useState("");
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState(null);
+
+
+    // Opening the login page always starts a fresh sign-in: drop any stale
+    // saved user so the form is shown instead of an old session being reused.
+    useEffect(() => {
+        logout();
+    }, []);
 
 
     const handleSubmit = async (event) => {

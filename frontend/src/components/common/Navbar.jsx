@@ -17,6 +17,10 @@ import {
     searchAll
 } from "../../services/searchService";
 
+import {
+    saveSearch
+} from "../../services/memoryService";
+
 
 function Navbar() {
 
@@ -30,6 +34,8 @@ function Navbar() {
     const [searchLoading, setSearchLoading] = useState(false);
     const searchInputRef = useRef(null);
     const searchContainerRef = useRef(null);
+    const searchTimer = useRef(null);
+    const searchSeq = useRef(0);
 
 
     useEffect(() => {
@@ -75,32 +81,50 @@ function Navbar() {
     }, []);
 
 
-    const handleSearchChange = async (event) => {
+    // Wait until the student pauses typing (300 ms) before asking the server:
+    // fewer requests, less database load, and old answers can never overwrite newer ones.
+    const handleSearchChange = (event) => {
         const value = event.target.value;
         setSearchQuery(value);
+
+        clearTimeout(searchTimer.current);
+        const sequence = ++searchSeq.current;
 
         if (!value.trim()) {
             setSearchResults({ subjects: [], topics: [] });
             setShowResults(false);
+            setSearchLoading(false);
             return;
         }
 
         setSearchLoading(true);
 
-        try {
-            const results = await searchAll(value);
-            setSearchResults(results);
-            setShowResults(true);
-        } catch (error) {
-            console.error("Search failed:", error);
-            setSearchResults({ subjects: [], topics: [] });
-        } finally {
-            setSearchLoading(false);
-        }
+        searchTimer.current = setTimeout(async () => {
+            try {
+                const results = await searchAll(value);
+                if (sequence !== searchSeq.current) return;
+                setSearchResults(results);
+                setShowResults(true);
+            } catch (error) {
+                console.error("Search failed:", error);
+                if (sequence !== searchSeq.current) return;
+                setSearchResults({ subjects: [], topics: [] });
+            } finally {
+                if (sequence === searchSeq.current) {
+                    setSearchLoading(false);
+                }
+            }
+        }, 300);
     };
 
 
+    useEffect(() => () => clearTimeout(searchTimer.current), []);
+
+
     const handleResultClick = (item, type) => {
+        // Remember what the student actually chose (memory feature)
+        saveSearch(searchQuery, type, item.name);
+
         if (type === "subject") {
             navigate(`/subjects/${item.id}`);
         } else if (type === "topic") {
@@ -256,6 +280,25 @@ function Navbar() {
                                 </div>
                             )}
 
+                            {searchResults.suggestions?.length > 0 && (
+                                <div className="search-section">
+                                    <div className="search-section-label">You searched before</div>
+                                    {searchResults.suggestions.map((term) => (
+                                        <button
+                                            key={term}
+                                            type="button"
+                                            className="search-result-item"
+                                            onClick={() => handleSearchChange({ target: { value: term } })}
+                                        >
+                                            <span className="search-result-icon">↺</span>
+                                            <div className="search-result-info">
+                                                <strong>{term}</strong>
+                                            </div>
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
                             {searchResults.subjects.length > 0 && (
                                 <div className="search-section">
                                     <div className="search-section-label">Subjects</div>
@@ -296,7 +339,9 @@ function Navbar() {
                                                     <span>{topic.description}</span>
                                                 )}
                                             </div>
-                                            <span className="search-result-type">Topic</span>
+                                            <span className="search-result-type">
+                                                {topic.needsPractice ? "Needs practice" : "Topic"}
+                                            </span>
                                         </button>
                                     ))}
                                 </div>

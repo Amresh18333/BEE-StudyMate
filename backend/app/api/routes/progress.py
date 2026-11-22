@@ -16,6 +16,7 @@ from app.services.progress_service import (
 )
 
 from app.utils.exceptions import validate_object_id
+from app.services.learning_memory_service import record_topic
 
 
 router = APIRouter(
@@ -104,6 +105,7 @@ def update_topic_progress(
         user_id,
         topic_id
     )
+    record_topic(user_id, topic_id)
 
     return {
         "id": str(updated_progress["_id"]),

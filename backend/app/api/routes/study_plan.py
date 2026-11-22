@@ -59,6 +59,7 @@ def generate_and_save_plan(request: StudyPlanGenerateRequest):
             days_available=request.daysAvailable,
             exam_date=request.examDate,
             subject_name=subject_name,
+            user_id=request.userId,
         )
 
         title = subject_name and f"{subject_name}: {request.goal}" or request.goal

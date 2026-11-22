@@ -28,6 +28,7 @@ import Summarizer from "./pages/Summarizer";
 import StudyPlanner from "./pages/StudyPlanner";
 import QuizGenerator from "./pages/QuizGenerator";
 import Resources from "./pages/Resources";
+import History from "./pages/History";
 
 function App() {
     return (
@@ -101,6 +102,10 @@ function App() {
                     <Route
                         path="/activity"
                         element={<StudyActivity />}
+                    />
+                    <Route
+                        path="/history"
+                        element={<History />}
                     />
                     <Route
                         path="/profile"

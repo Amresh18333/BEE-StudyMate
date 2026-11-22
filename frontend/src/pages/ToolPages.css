@@ -177,6 +177,16 @@
   font-size: 13px;
 }
 
+
+.chat-message:not(.user) {
+  max-width: 94%;
+}
+
+.chat-message:not(.user) .message-content {
+  min-width: 0;
+  flex: 1;
+}
+
 /* ---------- Quiz Generator ---------- */
 
 .tool-recent {
@@ -508,6 +518,85 @@
   overflow: hidden;
 }
 
+.ask-ai-layout {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.ask-ai-history {
+  height: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ask-ai-history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ask-ai-history-header h2 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.ask-ai-new {
+  width: 100%;
+}
+
+.ask-ai-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.ask-ai-history-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  text-align: left;
+}
+
+.ask-ai-history-item.active {
+  border-color: var(--purple);
+  background: var(--purple-soft);
+}
+
+.ask-ai-history-item strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ask-ai-history-item span {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.ask-ai-delete {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-size: 11px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.ask-ai-delete:hover {
+  color: #ff6b6b;
+}
+
 .ask-ai-card .chat-messages {
   flex: 1;
   overflow-y: auto;
@@ -580,9 +669,25 @@
   border-color: rgba(118, 87, 255, 0.6);
 }
 
+.chat-pdf-input {
+  max-width: 220px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
 @media (max-width: 900px) {
+  .ask-ai-layout,
   .summarizer-layout,
   .planner-layout {
     grid-template-columns: 1fr;
+  }
+
+  .ask-ai-history {
+    height: auto;
+    max-height: 260px;
+  }
+
+  .ask-ai-card {
+    height: 620px;
   }
 }

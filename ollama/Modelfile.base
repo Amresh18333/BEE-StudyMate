@@ -1,0 +1,9 @@
+# Base Qwen2.5-3B-Instruct tuned for StudyMate (no fine-tuning).
+# Create it with:  ollama create studymate-qwen -f Modelfile.base
+FROM qwen2.5:3b
+
+# The pipeline sends up to ~1500 input tokens + ~700 output tokens per section.
+# Ollama's default context can be smaller, which silently cuts the prompt.
+PARAMETER num_ctx 4096
+PARAMETER temperature 0.1
+PARAMETER num_predict 900

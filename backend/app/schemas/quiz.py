@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
 
@@ -7,6 +7,7 @@ class QuizQuestionResponse(BaseModel):
     id: str
     question: str
     options: list[str]
+    correctAnswer: int = 0
 
 
 class QuizResponse(BaseModel):
@@ -46,6 +47,7 @@ class QuizGenerateRequest(BaseModel):
 
 class QuizSubmit(BaseModel):
     answers: list[dict]
+    timeSpentSeconds: int = Field(default=0, ge=0, le=86400)
 
 
 class QuizQuestionSubmit(BaseModel):
@@ -60,4 +62,5 @@ class QuizAttemptResponse(BaseModel):
     answers: list[dict]
     score: int
     totalQuestions: int
+    timeSpentSeconds: int = 0
     completedAt: datetime

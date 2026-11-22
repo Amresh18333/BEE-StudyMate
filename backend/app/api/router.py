@@ -12,7 +12,9 @@ from app.api.routes import summarizer
 from app.api.routes import study_plan
 from app.api.routes import resources
 from app.api.routes import auth
-
+from app.api.routes import recommendations
+from app.api.routes import learning_path
+from app.api.routes import memory
 
 api_router = APIRouter(
     prefix="/api/v1"
@@ -31,3 +33,6 @@ api_router.include_router(summarizer.router)
 api_router.include_router(study_plan.router)
 api_router.include_router(resources.router)
 api_router.include_router(auth.router)
+api_router.include_router(recommendations.router)
+api_router.include_router(learning_path.router)
+api_router.include_router(memory.router)

@@ -1,96 +1,18 @@
 import {
     NavLink,
-    useLocation,
-    useNavigate
+    useLocation
 } from "react-router-dom";
-
-import {
-    useEffect,
-    useState
-} from "react";
-
-import {
-    getCurrentUser
-} from "../../services/userService";
 
 
 function Sidebar() {
 
     const location = useLocation();
-    const navigate = useNavigate();
-
-    const [user, setUser] = useState(null);
-
 
     const isSubjectsActive =
         location.pathname.startsWith("/subjects");
 
     const isProfileActive =
         location.pathname === "/profile";
-
-
-    useEffect(() => {
-
-        async function loadUser() {
-
-            try {
-
-                const userData =
-                    await getCurrentUser();
-
-                setUser(userData);
-
-            } catch (error) {
-
-                console.error(
-                    "Failed to load sidebar user:",
-                    error
-                );
-
-            }
-
-        }
-
-        loadUser();
-
-    }, []);
-
-
-    function getDisplayName() {
-
-        return (
-            user?.name ||
-            user?.fullName ||
-            user?.username ||
-            "Student"
-        );
-
-    }
-
-
-    function getInitials() {
-
-        const name =
-            getDisplayName().trim();
-
-        const parts =
-            name.split(/\s+/);
-
-        if (parts.length === 1) {
-
-            return parts[0]
-                .charAt(0)
-                .toUpperCase();
-
-        }
-
-        return (
-            parts[0].charAt(0) +
-            parts[parts.length - 1]
-                .charAt(0)
-        ).toUpperCase();
-
-    }
 
 
     return (
@@ -398,6 +320,38 @@ function Sidebar() {
 
 
                 <NavLink
+                    to="/history"
+                    className={({ isActive }) =>
+                        `sidebar-link sidebar-link-muted ${
+                            isActive
+                                ? "active"
+                                : ""
+                        }`
+                    }
+                >
+
+                    <span className="sidebar-link-icon">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M13 3a9 9 0 0 0-9 9H1l4 4 4-4H6a7 7 0 1 1 2.05 4.95l-1.42 1.42A9 9 0 1 0 13 3Zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12Z"
+                                fill="currentColor"
+                            />
+                        </svg>
+
+                    </span>
+
+                    <span>
+                        History
+                    </span>
+
+                </NavLink>
+
+
+                <NavLink
                     to="/profile"
                     className={() =>
                         `sidebar-link ${
@@ -429,40 +383,6 @@ function Sidebar() {
                 </NavLink>
 
             </nav>
-
-
-            {/* BOTTOM USER */}
-
-            <div className="sidebar-bottom">
-
-                <button
-                    type="button"
-                    className="sidebar-user-card"
-                    onClick={() =>
-                        navigate("/profile")
-                    }
-                    aria-label="Open profile"
-                >
-
-                    <div className="sidebar-user-avatar">
-                        {getInitials()}
-                    </div>
-
-                    <div className="sidebar-user-info">
-
-                        <strong>
-                            {getDisplayName()}
-                        </strong>
-
-                        <span>
-                            View profile
-                        </span>
-
-                    </div>
-
-                </button>
-
-            </div>
 
         </aside>
     );

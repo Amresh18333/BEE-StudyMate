@@ -3,7 +3,7 @@ import json
 from bson import ObjectId
 
 from app.database.connection import get_database
-from app.services.ai_service import client
+from app.services.ai_service import NVIDIA_MODEL, client
 from app.schemas.study_plan import PlanContent
 from app.models.study_plan import StudyPlan
 
@@ -15,6 +15,7 @@ def generate_study_plan(
     days_available: int = 7,
     exam_date: str = None,
     subject_name: str = None,
+    user_id: str = None,
 ):
     """Generate Plan -> [Study Planner Module] -> Gemini/OpenAI API"""
 
@@ -75,8 +76,11 @@ Requirements:
 - Return only JSON.
 """
 
+    from app.services import memory_service
+    prompt += memory_service.personalization_note(user_id, "plan")
+
     response = client.chat.completions.create(
-        model="nvidia/nemotron-3-nano-30b-a3b",
+        model=NVIDIA_MODEL,
         messages=[
             {
                 "role": "system",

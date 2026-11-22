@@ -110,9 +110,19 @@ function QuizResult() {
     const passed = scorePercentage >= 60;
 
     const results = quiz.questions.map((question, index) => {
-        const userAnswer = attempt.answers[index]?.selectedAnswer;
-        const correctAnswer = question.correctAnswer;
-        const isCorrect = userAnswer === correctAnswer;
+        const submitted = attempt.answers.find(
+            (answer) => String(answer.questionId) === String(index)
+        );
+
+        const rawAnswer = submitted?.selectedAnswer;
+        const userAnswer =
+            rawAnswer === undefined || rawAnswer === null || Number(rawAnswer) < 0
+                ? null
+                : Number(rawAnswer);
+
+        const correctAnswer = Number(question.correctAnswer);
+        const isCorrect = userAnswer !== null && userAnswer === correctAnswer;
+
         return {
             question,
             userAnswer,

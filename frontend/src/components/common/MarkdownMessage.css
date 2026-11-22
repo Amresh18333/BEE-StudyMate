@@ -1,0 +1,178 @@
+.md-message {
+  color: var(--text-primary);
+  font-size: 14.5px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.md-message > *:first-child { margin-top: 0; }
+.md-message > *:last-child { margin-bottom: 0; }
+
+.md-message p,
+.message-content .md-message p {
+  margin: 0 0 12px;
+  white-space: normal;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.message-content .md-message > p:last-child { margin-bottom: 0; }
+
+.md-message h1,
+.md-message h2,
+.md-message h3,
+.md-message h4 {
+  margin: 20px 0 10px;
+  line-height: 1.3;
+  letter-spacing: -0.2px;
+}
+
+.md-message h1 { font-size: 20px; }
+
+.md-message h2 {
+  font-size: 18px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.md-message h3 {
+  font-size: 16px;
+  color: var(--purple-light);
+}
+
+.md-message h4 { font-size: 14.5px; }
+
+.md-message strong { color: #ffffff; font-weight: 700; }
+
+.md-message ul,
+.md-message ol {
+  margin: 0 0 12px;
+  padding-left: 22px;
+}
+
+.md-message li { margin-bottom: 5px; }
+.md-message li::marker { color: var(--purple-light); }
+
+.md-message hr {
+  margin: 18px 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+.md-message blockquote {
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border-left: 3px solid var(--purple);
+  border-radius: 0 8px 8px 0;
+  background: var(--purple-soft);
+  color: var(--text-secondary);
+}
+
+.md-message blockquote p:last-child { margin-bottom: 0; }
+
+.md-message a {
+  color: var(--purple-light);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.md-inline-code {
+  padding: 2px 7px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--code-bg);
+  color: #c4b5fd;
+  font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+  font-size: 0.88em;
+}
+
+.md-code-block {
+  margin: 0 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--code-bg);
+  overflow: hidden;
+}
+
+.md-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.md-code-header button {
+  padding: 3px 10px;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.md-code-header button:hover {
+  border-color: var(--purple);
+  color: var(--text-primary);
+}
+
+.md-code-block pre {
+  margin: 0;
+  padding: 14px;
+  overflow-x: auto;
+}
+
+.md-code-block code {
+  color: #e2e8f0;
+  font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.md-table-wrap {
+  margin: 0 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+.md-message table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.md-message th {
+  padding: 10px 14px;
+  background: var(--purple-soft);
+  color: var(--purple-light);
+  text-align: left;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.md-message td {
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.md-message tr:nth-child(even) td { background: rgba(255, 255, 255, 0.02); }
+
+/* keep words intact inside tables; the wrapper scrolls instead */
+.md-message table,
+.md-message th,
+.md-message td {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.md-message td:first-child { white-space: nowrap; }

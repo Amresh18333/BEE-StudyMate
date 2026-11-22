@@ -48,12 +48,14 @@ class QuizAttempt:
         answers=None,
         score=0,
         total_questions=0,
+        time_spent_seconds=0,
     ):
         self.user_id = ObjectId(user_id)
         self.quiz_id = ObjectId(quiz_id)
         self.answers = answers if answers is not None else []
         self.score = score
         self.total_questions = total_questions
+        self.time_spent_seconds = time_spent_seconds
         self.completed_at = datetime.utcnow()
 
     def to_dict(self):
@@ -63,6 +65,7 @@ class QuizAttempt:
             "answers": self.answers,
             "score": self.score,
             "totalQuestions": self.total_questions,
+            "timeSpentSeconds": self.time_spent_seconds,
             "completedAt": self.completed_at,
         }
     

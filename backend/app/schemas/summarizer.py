@@ -6,6 +6,12 @@ from datetime import datetime
 class SummarySection(BaseModel):
     title: str
     body: str
+    # New optional fields. Old saved summaries do not have them, so they have defaults.
+    keyPoints: list[str] = []
+    definitions: list[dict] = []
+    examTips: list[str] = []
+    source: Optional[str] = None
+    focus: bool = False
 
 
 class SummaryContent(BaseModel):
@@ -13,6 +19,10 @@ class SummaryContent(BaseModel):
     keyPoints: list[str]
     sections: list[SummarySection]
     flashcards: list[dict] = []
+    definitions: list[dict] = []
+    examTips: list[str] = []
+    quality: Optional[dict] = None
+    personalization: Optional[dict] = None
 
 
 class SummaryResponse(BaseModel):

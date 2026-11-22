@@ -1,6 +1,8 @@
 from fastapi import APIRouter, HTTPException, Query
 
 from app.services.resource_service import search_notes, search_best_videos
+from app.services import memory_service as memory
+from app.utils.exceptions import validate_object_id
 
 router = APIRouter(
     prefix="/resources",
@@ -61,8 +63,13 @@ def search_resources(
     q: str = Query(..., min_length=1),
     notes_limit: int = Query(6, ge=1, le=15),
     videos_limit: int = Query(3, ge=1, le=10),
+    user_id: str = Query(None),
 ):
     """Combined notes + video search for a topic/keyword."""
+
+    if user_id:
+        validate_object_id(user_id)
+        memory.record_search(user_id, q, kind="resource")   # feeds history + learner profile
 
     notes = []
     videos = []
