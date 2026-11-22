@@ -5,6 +5,8 @@ import { getSubjectsForCurrentUser } from "./subjectService";
 import { getProgressForCurrentUser } from "./progressService";
 import { getCurrentUserStudySessions } from "./studySessionService";
 import { getQuizAttempts } from "./quizService";
+import { getRecommendations } from "./recommendationService";
+import { clearCurrentUserId } from "./currentUserService";
 
 
 export function useDashboardData() {
@@ -14,6 +16,7 @@ export function useDashboardData() {
     const [progress, setProgress] = useState([]);
     const [studySessions, setStudySessions] = useState([]);
     const [quizAttempts, setQuizAttempts] = useState([]);
+    const [recommendations, setRecommendations] = useState(null);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -28,18 +31,25 @@ export function useDashboardData() {
                 setLoading(true);
                 setError(null);
 
+                const currentUser = await getCurrentUser();
+
+                if (!currentUser) {
+                    clearCurrentUserId();
+                    throw new Error("Your login session has expired. Please sign in again.");
+                }
+
                 const [
-                    currentUser,
                     currentSubjects,
                     currentProgress,
                     currentSessions,
-                    currentQuizAttempts
+                    currentQuizAttempts,
+                    currentRecommendations
                 ] = await Promise.all([
-                    getCurrentUser(),
-                    getSubjectsForCurrentUser(),
-                    getProgressForCurrentUser(),
+                    getSubjectsForCurrentUser().catch(() => []),
+                    getProgressForCurrentUser().catch(() => []),
                     getCurrentUserStudySessions().catch(() => []),
-                    getQuizAttempts().catch(() => [])
+                    getQuizAttempts().catch(() => []),
+                    getRecommendations().catch(() => null)
                 ]);
 
 
@@ -48,6 +58,7 @@ export function useDashboardData() {
                 setProgress(currentProgress);
                 setStudySessions(Array.isArray(currentSessions) ? currentSessions : []);
                 setQuizAttempts(Array.isArray(currentQuizAttempts) ? currentQuizAttempts : []);
+                setRecommendations(currentRecommendations);
 
             } catch (error) {
 
@@ -78,6 +89,7 @@ export function useDashboardData() {
         progress,
         studySessions,
         quizAttempts,
+        adaptiveRecommendations: recommendations,
         loading,
         error
     };

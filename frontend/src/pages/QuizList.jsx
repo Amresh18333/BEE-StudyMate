@@ -9,6 +9,14 @@ import {
     generateQuiz
 } from "../services/aiService";
 
+import {
+    getTopicById
+} from "../services/topicService";
+
+import {
+    getCurrentUserId
+} from "../services/currentUserService";
+
 import "./Quiz.css";
 
 
@@ -57,22 +65,44 @@ function QuizList() {
 
     const handleGenerateQuiz = async () => {
 
+        const userId = getCurrentUserId();
+
+        if (!userId) {
+            setError("You need to be logged in to create a quiz.");
+            return;
+        }
+
         setGenerating(true);
+        setError(null);
 
         try {
 
+            // 1. ask the AI for questions
             const result = await generateQuiz(topicId, 5);
 
+            // 2. look up the topic so the quiz is linked to its
+            //    real subject (not an empty string)
+            let topic = null;
+
+            try {
+                topic = await getTopicById(topicId);
+            } catch (lookupError) {
+                console.warn("Could not load topic details:", lookupError);
+            }
+
+            // 3. save the quiz
             const quizData = {
-                subjectId: "",
+                userId,
+                subjectId: topic?.subjectId || null,
                 topicId,
+                topicName: topic?.name || null,
                 title: result.title,
-                questions: result.questions.map((q, index) => ({
+                questions: result.questions.map((q) => ({
                     question: q.question,
                     options: q.options,
                     correctAnswer: q.correctAnswer
                 })),
-                difficulty: result.difficulty
+                difficulty: result.difficulty || "medium"
             };
 
             const created = await createQuiz(quizData);
@@ -82,7 +112,11 @@ function QuizList() {
         } catch (error) {
 
             console.error("Failed to generate quiz:", error);
-            alert("Failed to generate quiz. Please try again.");
+
+            setError(
+                error.message ||
+                "Failed to generate quiz. Please try again."
+            );
 
         } finally {
 
@@ -238,16 +272,52 @@ function QuizList() {
 }
 
 
+/* Turns FastAPI's error shapes into readable text.
+   detail can be a string (HTTPException) or a list (422 validation). */
+function readableError(data, fallback) {
+
+    const detail = data?.detail;
+
+    if (typeof detail === "string") {
+        return detail;
+    }
+
+    if (Array.isArray(detail) && detail.length > 0) {
+        return detail
+            .map((item) => {
+                const field = Array.isArray(item.loc)
+                    ? item.loc.filter((part) => part !== "body").join(".")
+                    : "";
+                return field ? `${field}: ${item.msg}` : item.msg;
+            })
+            .join("; ");
+    }
+
+    return fallback;
+}
+
+
 async function createQuiz(quizData) {
-    const response = await fetch("http://127.0.0.1:8000/api/v1/quizzes", {
+
+    const response = await fetch("http://127.0.0.1:8001/api/v1/quizzes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(quizData)
     });
 
     if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.detail || "Failed to create quiz");
+
+        let data = null;
+
+        try {
+            data = await response.json();
+        } catch {
+            // body wasn't JSON
+        }
+
+        throw new Error(
+            readableError(data, "Failed to create quiz")
+        );
     }
 
     return response.json();

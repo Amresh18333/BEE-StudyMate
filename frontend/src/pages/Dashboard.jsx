@@ -22,6 +22,12 @@ import ProgressOverview
 
 import StudyOverview
     from "../components/dashboard/StudyOverview";
+import RecommendationPanel
+    from "../components/dashboard/RecommendationPanel";
+import LearnerCard
+    from "../components/dashboard/LearnerCard";
+
+import "../components/dashboard/DashboardLayout.css";
 
 
 function Dashboard() {
@@ -34,6 +40,7 @@ function Dashboard() {
         progress,
         studySessions,
         quizAttempts,
+        adaptiveRecommendations,
         loading,
         error
     } = useDashboardData();
@@ -334,6 +341,11 @@ function Dashboard() {
                 subjectCount={subjects.length}
                 progressPercentage={overallProgress}
             />
+
+            <RecommendationPanel data={adaptiveRecommendations} />
+
+            {/* Learner type + history, built from the student's own activity */}
+            <LearnerCard />
 
 
             {/* =========================

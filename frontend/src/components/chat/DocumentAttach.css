@@ -1,0 +1,77 @@
+.doc-attach-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  order: -1;
+}
+
+.doc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 12px;
+}
+
+.doc-chip-name {
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.doc-chip-size {
+  color: var(--text-muted);
+}
+
+.doc-chip-remove {
+  padding: 0 4px;
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.doc-attach-error {
+  color: #f87171;
+  font-size: 12px;
+}
+
+.doc-attach-button {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-card);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.doc-attach-button:hover:not(:disabled) {
+  border-color: var(--border-light);
+}
+
+.doc-attach-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.doc-sources {
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.chat-input-area { flex-wrap: wrap; }
+.chat-input-area .chat-input { min-width: 180px; }

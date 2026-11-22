@@ -1,4 +1,5 @@
 import json
+import re
 
 from bson import ObjectId
 from openai import OpenAI
@@ -6,12 +7,97 @@ from openai import OpenAI
 from app.config import settings
 from app.database.connection import get_database
 from app.schemas.ai import TopicContent
+from app.services import memory_service
 
 
 client = OpenAI(
     base_url="https://integrate.api.nvidia.com/v1",
     api_key=settings.nvidia_api_key
 )
+NVIDIA_MODEL = "nvidia/nemotron-3.5-lightning-30b-a3b"
+
+
+def parse_ai_json(raw):
+    """Parse the model's JSON even when it adds ```json fences,
+    <think> blocks, or a sentence before/after the object."""
+
+    text = (raw or "").strip()
+
+    if not text:
+        raise ValueError("AI returned an empty response")
+
+    text = re.sub(
+        r"<think>.*?</think>", "", text,
+        flags=re.S | re.I
+    ).strip()
+
+    text = re.sub(
+        r"^```(?:json)?\s*|\s*```$", "", text,
+        flags=re.I
+    )
+
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+
+    start, end = text.find("{"), text.rfind("}")
+
+    if start != -1 and end > start:
+        try:
+            return json.loads(text[start:end + 1])
+        except json.JSONDecodeError:
+            pass
+
+    print(f"[ai_service] unparseable AI output: {(raw or '')[:600]!r}")
+
+    raise ValueError("AI returned invalid JSON")
+
+
+def clean_questions(questions, limit=None):
+    """Keep only well-formed MCQs: text, exactly 4 options, and a
+    correctAnswer index 0-3. Bad ones are dropped, not fatal."""
+
+    cleaned = []
+
+    if not isinstance(questions, list):
+        questions = []
+
+    for item in questions:
+
+        if not isinstance(item, dict):
+            continue
+
+        question = str(item.get("question", "")).strip()
+
+        options = item.get("options")
+        if not isinstance(options, list):
+            continue
+
+        options = [
+            str(option).strip()
+            for option in options
+            if str(option).strip()
+        ]
+
+        try:
+            answer = int(item.get("correctAnswer", -1))
+        except (TypeError, ValueError):
+            continue
+
+        if not question or len(options) != 4 or not 0 <= answer <= 3:
+            continue
+
+        cleaned.append({
+            "question": question,
+            "options": options,
+            "correctAnswer": answer
+        })
+
+    if not cleaned:
+        raise ValueError("AI returned no usable quiz questions")
+
+    return cleaned[:limit] if limit else cleaned
 
 
 def get_topic(topic_id: str):
@@ -84,7 +170,7 @@ TOPIC:
 {topic["name"]}
 
 TOPIC DESCRIPTION:
-{topic["description"]}
+{topic.get("description") or "None provided."}
 
 STUDENT CONTEXT:
 The student is a B.Tech CSE student.
@@ -148,8 +234,12 @@ Requirements:
 - Return only JSON.
 """
 
+    prompt += memory_service.personalization_note(
+        str(topic.get("userId") or ""), "lesson", topic.get("name")
+    )
+
     response = client.chat.completions.create(
-        model="nvidia/nemotron-3-nano-30b-a3b",
+        model=NVIDIA_MODEL,
         messages=[
             {
                 "role": "system",
@@ -181,29 +271,15 @@ Always return only the requested JSON structure.
             }
         ],
         temperature=0.2,
-        max_tokens=2500
+        max_tokens=4000
     )
 
-    raw_content = response.choices[0].message.content
+    parsed_content = parse_ai_json(
+        response.choices[0].message.content
+    )
 
-    if not raw_content:
-        raise ValueError(
-            "AI returned an empty response"
-        )
-
-    try:
-
-        parsed_content = json.loads(
-            raw_content
-        )
-
-    except json.JSONDecodeError as error:
-
-        raise ValueError(
-            "AI returned invalid JSON"
-        ) from error
-
-    if "content" not in parsed_content:
+    if not isinstance(parsed_content, dict) or \
+            "content" not in parsed_content:
 
         raise ValueError(
             "AI response is missing content"
@@ -256,7 +332,7 @@ TOPIC:
 {topic["name"]}
 
 TOPIC DESCRIPTION:
-{topic["description"]}
+{topic.get("description") or "None provided."}
 
 STUDENT CONTEXT:
 The student is a B.Tech CSE student.
@@ -306,8 +382,12 @@ Requirements:
 - Return only JSON.
 """
 
+    prompt += memory_service.personalization_note(
+        str(topic.get("userId") or ""), "quiz", topic.get("name")
+    )
+
     response = client.chat.completions.create(
-        model="nvidia/nemotron-3-nano-30b-a3b",
+        model=NVIDIA_MODEL,
         messages=[
             {
                 "role": "system",
@@ -338,29 +418,19 @@ Always return only the requested JSON structure.
             }
         ],
         temperature=0.3,
-        max_tokens=3000
+        max_tokens=4500
     )
 
-    raw_content = response.choices[0].message.content
+    parsed_content = parse_ai_json(
+        response.choices[0].message.content
+    )
 
-    if not raw_content:
-        raise ValueError(
-            "AI returned an empty response"
-        )
+    # tolerate a bare list of questions
+    if isinstance(parsed_content, list):
+        parsed_content = {"questions": parsed_content}
 
-    try:
-
-        parsed_content = json.loads(
-            raw_content
-        )
-
-    except json.JSONDecodeError as error:
-
-        raise ValueError(
-            "AI returned invalid JSON"
-        ) from error
-
-    if "questions" not in parsed_content:
+    if not isinstance(parsed_content, dict) or \
+            "questions" not in parsed_content:
 
         raise ValueError(
             "AI response is missing questions"
@@ -368,7 +438,10 @@ Always return only the requested JSON structure.
 
     return {
         "title": parsed_content.get("title", f"{topic['name']} Quiz"),
-        "questions": parsed_content["questions"],
+        "questions": clean_questions(
+            parsed_content["questions"],
+            limit=num_questions
+        ),
         "difficulty": parsed_content.get("difficulty", "medium"),
     }
 
@@ -377,7 +450,8 @@ def generate_quiz_standalone(
     topic_name: str,
     description: str = "",
     num_questions: int = 5,
-    difficulty: str = "medium"
+    difficulty: str = "medium",
+    user_id: str = None
 ):
     """Generate a quiz for any free-text topic/keywords, without
     requiring an existing subject/topic document in the database.
@@ -432,8 +506,10 @@ Requirements:
 - Return only JSON.
 """
 
+    prompt += memory_service.personalization_note(user_id, "quiz", topic_name)
+
     response = client.chat.completions.create(
-        model="nvidia/nemotron-3-nano-30b-a3b",
+        model=NVIDIA_MODEL,
         messages=[
             {
                 "role": "system",
@@ -449,26 +525,27 @@ Requirements:
             }
         ],
         temperature=0.3,
-        max_tokens=3000
+        max_tokens=4500
     )
 
-    raw_content = response.choices[0].message.content
+    parsed_content = parse_ai_json(
+        response.choices[0].message.content
+    )
 
-    if not raw_content:
-        raise ValueError("AI returned an empty response")
+    if isinstance(parsed_content, list):
+        parsed_content = {"questions": parsed_content}
 
-    try:
-        parsed_content = json.loads(raw_content)
+    if not isinstance(parsed_content, dict) or \
+            not parsed_content.get("questions"):
 
-    except json.JSONDecodeError as error:
-        raise ValueError("AI returned invalid JSON") from error
-
-    if "questions" not in parsed_content or not parsed_content["questions"]:
         raise ValueError("AI response is missing questions")
 
     return {
         "title": parsed_content.get("title", f"{topic_name} Quiz"),
-        "questions": parsed_content["questions"],
+        "questions": clean_questions(
+            parsed_content["questions"],
+            limit=num_questions
+        ),
         "difficulty": parsed_content.get("difficulty", difficulty),
     }
 

@@ -1,0 +1,58 @@
+/* Dashboard layout fixes.
+   Problem: the "Recommended" panel and the two cards under it (Learning progress /
+   Your study progress) had no gap between them and slightly different corner radius
+   and padding, so their borders touched. Selectors start with .dashboard-page so they
+   win over the older rules in App.css regardless of import order. */
+
+.dashboard-page {
+  --dash-gap: 18px;
+  --dash-radius: 16px;
+  --dash-pad: 22px;
+}
+
+.dashboard-page .dashboard-recommendations,
+.dashboard-page .dashboard-recent-activity,
+.dashboard-page .dashboard-continue,
+.dashboard-page .dashboard-grid > .card {
+  border-radius: var(--dash-radius);
+  padding: var(--dash-pad);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  box-sizing: border-box;
+}
+
+/* one consistent vertical rhythm between the blocks */
+.dashboard-page .dashboard-recommendations {
+  margin: var(--dash-gap) 0;
+}
+
+.dashboard-page .dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: var(--dash-gap);
+  align-items: stretch;
+  margin: var(--dash-gap) 0;
+}
+
+/* both cards are the same height and their content fills the card */
+.dashboard-page .dashboard-grid > .card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+}
+
+.dashboard-page .dashboard-grid > .card .empty-study {
+  flex: 1;
+  align-items: center;
+}
+
+.dashboard-page .dashboard-continue {
+  margin-top: var(--dash-gap);
+}
+
+@media (max-width: 900px) {
+  .dashboard-page .dashboard-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

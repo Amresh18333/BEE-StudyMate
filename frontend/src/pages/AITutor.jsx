@@ -1,9 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
+import MarkdownMessage from "../components/common/MarkdownMessage";
 import {
     generateTopicContent
 } from "../services/aiService";
+import { useChatDocument } from "../hooks/useChatDocument";
+import DocumentAttach, { DocumentSources } from "../components/chat/DocumentAttach";
 
 import {
     getTopicById
@@ -28,6 +30,7 @@ function AITutor() {
     const [chatInput, setChatInput] = useState("");
     const [chatLoading, setChatLoading] = useState(false);
     const chatEndRef = useRef(null);
+    const doc = useChatDocument();
 
 
     useEffect(() => {
@@ -103,16 +106,14 @@ If the student asks for examples, provide relevant ones.
 Keep responses concise but thorough.
 `;
 
-            const response = await fetch("http://127.0.0.1:8000/api/v1/ai/chat", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ prompt })
-            });
+            // doc.ask sends the student id (so the tutor adapts) and the attached document, if any
+            const data = await doc.ask(prompt);
 
-            if (!response.ok) throw new Error("Failed to get response");
-
-            const data = await response.json();
-            setChatMessages(prev => [...prev, { role: "assistant", text: data.response || "I'm not sure about that. Could you rephrase?" }]);
+            setChatMessages(prev => [...prev, {
+                role: "assistant",
+                text: data.response || "I'm not sure about that. Could you rephrase?",
+                meta: data
+            }]);
 
         } catch (error) {
 
@@ -286,7 +287,10 @@ Keep responses concise but thorough.
                                             {msg.role === "user" ? "👤" : "🤖"}
                                         </div>
                                         <div className="message-content">
-                                            <p>{msg.text}</p>
+                                            {msg.role === "user"
+                                                ? <p>{msg.text}</p>
+                                                : <MarkdownMessage text={msg.text} />}
+                                            {msg.role === "assistant" && <DocumentSources meta={msg.meta} />}
                                         </div>
                                     </div>
                                 ))}
@@ -294,12 +298,19 @@ Keep responses concise but thorough.
                             </div>
 
                             <div className="chat-input-area">
+                                <DocumentAttach
+                                    file={doc.file}
+                                    error={doc.attachError}
+                                    onAttach={doc.attach}
+                                    onClear={doc.clear}
+                                    disabled={chatLoading}
+                                />
                                 <input
                                     type="text"
                                     value={chatInput}
                                     onChange={(e) => setChatInput(e.target.value)}
                                     onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-                                    placeholder="Ask me anything about this topic..."
+                                    placeholder={doc.file ? "Ask about your document..." : "Ask me anything about this topic..."}
                                     disabled={chatLoading}
                                     className="chat-input"
                                 />

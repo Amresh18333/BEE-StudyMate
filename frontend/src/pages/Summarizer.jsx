@@ -106,6 +106,10 @@ function Summarizer() {
     };
 
 
+    // Sections about the student's weak topics come first (nothing is removed).
+    const orderedSections = [...(activeSummary?.summary?.sections || [])]
+        .sort((a, b) => Number(Boolean(b.focus)) - Number(Boolean(a.focus)));
+
     if (loading) {
         return (
             <div className="page tool-page">
@@ -193,7 +197,7 @@ function Summarizer() {
                         disabled={uploading || !selectedFile}
                     >
                         {uploading
-                            ? (<><span className="spinner-sm" /> Summarizing...</>)
+                            ? (<><span className="spinner-sm" /> Summarizing... large PDFs can take a few minutes</>)
                             : "Summarize PDF"}
                     </button>
 
@@ -248,16 +252,71 @@ function Summarizer() {
                         </div>
                     )}
 
-                    {activeSummary.summary.sections?.length > 0 && (
+                    {activeSummary.summary.personalization?.weakTopics?.length > 0 && (
+                        <p className="file-hint">
+                            Personalized for you: sections about {activeSummary.summary.personalization.weakTopics.join(", ")}
+                            {" "}are shown first.
+                        </p>
+                    )}
+
+                    {orderedSections.length > 0 && (
                         <div className="summary-block">
                             <h3>Sections</h3>
-                            {activeSummary.summary.sections.map((section, index) => (
+                            {orderedSections.map((section, index) => (
                                 <div key={index} className="summary-section">
-                                    <h4>{section.title}</h4>
+                                    <h4>
+                                        {section.title}
+                                        {section.focus && <span className="pill-badge subtle"> Focus for you</span>}
+                                    </h4>
                                     <p>{section.body}</p>
+                                    {section.keyPoints?.length > 0 && activeSummary.summary.personalization?.view !== "quick" && (
+                                        <ul className="key-points-list">
+                                            {section.keyPoints.map((point, i) => (
+                                                <li key={i}>{point}</li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                    {section.source === "extractive_fallback" && (
+                                        <span className="file-hint">
+                                            Taken directly from your PDF (the AI could not summarize this section).
+                                        </span>
+                                    )}
                                 </div>
                             ))}
                         </div>
+                    )}
+
+                    {activeSummary.summary.definitions?.length > 0 && (
+                        <div className="summary-block">
+                            <h3>Definitions</h3>
+                            {activeSummary.summary.definitions.map((item, index) => (
+                                <p key={index}><strong>{item.term}:</strong> {item.meaning}</p>
+                            ))}
+                        </div>
+                    )}
+
+                    {activeSummary.summary.examTips?.length > 0 && (
+                        <div className="summary-block">
+                            <h3>Exam Tips</h3>
+                            <ul className="key-points-list">
+                                {activeSummary.summary.examTips.map((tip, index) => (
+                                    <li key={index}>{tip}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
+                    {activeSummary.summary.quality?.model && (
+                        <p className="file-hint">
+                            Summarized by: {activeSummary.summary.quality.model}
+                        </p>
+                    )}
+
+                    {activeSummary.summary.quality?.itemsRemovedAsUnsupported > 0 && (
+                        <p className="file-hint">
+                            {activeSummary.summary.quality.itemsRemovedAsUnsupported} item(s)
+                            were removed because they were not supported by your PDF.
+                        </p>
                     )}
 
                     {activeSummary.summary.flashcards?.length > 0 && (

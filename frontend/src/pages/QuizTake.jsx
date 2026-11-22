@@ -86,7 +86,11 @@ function QuizTake() {
                 selectedAnswer: answers[index] ?? -1
             }));
 
-            const result = await submitQuiz(quizId, submitAnswers);
+            const result = await submitQuiz(
+                quizId,
+                submitAnswers,
+                Math.round((Date.now() - timeStarted) / 1000)
+            );
 
             navigate(`/quiz/${quizId}/result/${result.id}`);
 

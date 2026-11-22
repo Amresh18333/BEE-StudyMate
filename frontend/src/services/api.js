@@ -1,8 +1,13 @@
-const API_BASE_URL = "http://127.0.0.1:8000/api/v1";
+const configuredApiUrl =
+    import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
+
+export const API_BASE_URL = configuredApiUrl
+    .replace(/\/$/, "")
+    .replace(/\/api\/v1$/, "");
 
 export async function apiRequest(endpoint, options = {}) {
     const response = await fetch(
-        `${API_BASE_URL}${endpoint}`,
+        `${API_BASE_URL}/api/v1${endpoint}`,
         {
             ...options,
             headers: {
